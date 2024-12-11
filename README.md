@@ -29,7 +29,7 @@
 
 - **Time period and grain**: Species interaction data was collected between 2004 and 2021. All records are time-referenced and most of the studies documented interactions within a single flowering season (68.52%).
 
-- **Major taxa and level of measurement**: The database contains interaction data at the species level for 94.39% of the records, including a total of 1,411 plant and 2,223 pollinator species. The database covers 5.56% of the European species of flowering plants, 34.38% of bees, 26.21% of butterflies, and 33.63% of syrphid species at the European level.
+- **Major taxa and level of measurement**: The database contains interaction data at the species level for 94% of the records, including a total of 1,411 plant and 2,223 pollinator species. The database includes data on 6% of the European species of flowering plants, 34% of bees, 26% of butterflies, and 33% of syrphid species at the European level.
 
 - **Software format**: The database was built with the R programming language and is stored as “.rds” and “.csv” formats. The construction of the database is fully reproducible and can be accessed in this repository.
 
