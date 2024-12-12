@@ -32,288 +32,97 @@ library(kableExtra)
 ```
 
 
-```{r echo=FALSE, message=FALSE, cache=FALSE, warning=FALSE, out.width="95%", fig.cap= "\\textbf{Figure 2}. Graphs (a-b-c) indicate the accumulation curves for pollinators, plants, and their interactions across sampling sites. Grey solid lines represent 100 randomized accumulation curves, the black solid lines represents the interpolated curve (i.e., the mean across curves), and the red dashed lines illustrates the extrapolated curve for approximately 3000 sampling sites. The solid black points indicate the number of species and interactions contained in the database. Graph (d) shows the accumulation curve of pollinator species across increasing number of plant species. This last graph uses the same color and shape structure as the ones in the top panel. Graphs (e-f) indicate the percentage of occurrence (i.e., incidence) of plant and pollinator species across sampling sites. Species on the left (i.e., common) are found in many sampling sites, while species on the right (i.e., rare) are found in few or only a single sampling site.", fig.width=10, fig.height=6, out.width="115%"}
+```{r echo=FALSE, message=FALSE, cache=FALSE, warning=FALSE, out.width="95%", fig.width=10, fig.height=10, fig.cap= "\\textbf{Figure 2}. Phylogenetic and taxonomic coverage of bee genera at European level. The number of interactions recorded per genus in the database is illustrated using circles, with their sizes proportional to the number of interactions on a logarithmic scale, complemented by a gradient of colors ranging from yellow to dark purple. Additionally, the coverage of species recorded in EuPPollNet for each genus is depicted using two types of bars: orange bars representing the percentage of species included in the database and light grey bars indicating the percentage of species not included in the database, out of the total number of bee species in Europe. Dark grey bars represent the total number of species per genus on a logarithmic scale at European level."}
 
-#Pollinators-----
-poll_output = readRDS("../../Data/Working_files/pollinator_sampling_coverage.rds")
-pollinators_curves = readRDS("../../Data/Working_files/collectors_curves_pollinators.rds")
-#Create dataset
-d_poll = poll_output$iNextEst$Network_id
-#Check cols
-d_poll$col = d_poll$method
-
-#Now create tibble with same structure
-a_poll = tibble(t = pollinators_curves$Study_sampled, 
-           method = as.character(pollinators_curves$iteration), 
-           qD = pollinators_curves$Unique_spp_cumulative,
-           col = "collectors")
-
-#Bind datasets 
-d_poll1 = bind_rows(d_poll, a_poll)
-d_poll1_point = d_poll1 %>%  filter(method == "observed")
-d_poll1_lines = d_poll1 %>%  filter(!method == "observed")
-
-#Order levels
-d_poll1_lines$col = factor(d_poll1_lines$col, levels = c("collectors", "interpolated", "extrapolated"))
-#Plot
-p1 = ggplot(d_poll1_lines, aes(x = t, y = qD, group = method, color = col)) +
-geom_line(aes(linetype = col),size = 0.65) +
-scale_colour_manual(values = c("gray", "black", "red"), labels = c("Randomizations", "Interpolated", "Extrapolated")) +
-scale_linetype_manual(values = c("solid", "solid", "dashed"),  labels = c("Randomizations", "Interpolated", "Extrapolated")) + 
-geom_ribbon(aes(ymin = qD.LCL, 
-    ymax=qD.UCL, fill = col),alpha=0.2, colour = NA, show.legend = FALSE)+
-scale_fill_manual(values = c("gray", "black", "red")) +
-geom_point(data = d_poll1_point, col = "black", size=2) + 
-ylab("Pollinator species") +
-xlab("Sampling sites") +
-theme_bw() +
-coord_cartesian(expand = FALSE, clip = "off")  +
-xlim(0,3000)+
-ylim(0, 3000) +
-ggtitle("(a)") +
-theme(plot.margin = margin(r = 12)) 
-
-#Plants-----
-plant_output = readRDS("../../Data/Working_files/plant_sampling_coverage.rds")
-plant_curves = readRDS("../../Data/Working_files/collectors_curves_plants.rds")
-#Create dataset
-d_plant = plant_output$iNextEst$Network_id
-#Check cols
-d_plant$col = d_plant$method
-
-#Now create tibble with same structure
-a_plant = tibble(t = plant_curves$Study_sampled, 
-           method = as.character(plant_curves$iteration), 
-           qD = plant_curves$Unique_spp_cumulative,
-           col = "collectors")
-
-#Bind datasets 
-d_plant1 = bind_rows(d_plant, a_plant)
-d_plant1_point = d_plant1 %>%  filter(method == "observed")
-d_plant1_lines = d_plant1 %>%  filter(!method == "observed")
-
-#Order levels
-d_plant1_lines$col = factor(d_plant1_lines$col, levels = c("collectors", "interpolated", "extrapolated"))
-#Plot
-p2 = ggplot(d_plant1_lines, aes(x = t, y = qD, group = method, color = col)) +
-geom_line(aes(linetype = col), size = 0.65) +
-scale_colour_manual(values = c("gray", "black", "red"), labels = c("Randomizations", "Interpolated", "Extrapolated")) +
-scale_linetype_manual(values = c("solid", "solid", "dashed"),  labels = c("Randomizations", "Interpolated", "Extrapolated")) + 
-geom_ribbon(aes(ymin = qD.LCL, 
-    ymax=qD.UCL, fill = col),alpha=0.2, colour = NA, show.legend = FALSE)+
-scale_fill_manual(values = c("gray", "black", "red")) +
-geom_point(data = d_plant1_point, col = "black", size=2) + 
-ylab("Plant species") +
-xlab("Sampling sites") +
-theme_bw() +
-coord_cartesian(expand = FALSE, clip = "off")  +
-xlim(0,3000)+
-ylim(0, 3000)+
-ggtitle("(b)")+
-theme(plot.margin = margin(r = 12)) 
-
-
-
-#Interactions-----
-int_output = readRDS("../../Data/Working_files/interactions_sampling_coverage.rds")
-interactions_curves = readRDS("../../Data/Working_files/collectors_curves_interactions.rds")
-#Create dataset
-d_int = int_output$iNextEst$Network_id
-#Check cols
-d_int$col = d_int$method
-
-#Now create tibble with same structure
-a_poll = tibble(t = interactions_curves$Study_sampled, 
-           method = as.character(interactions_curves$iteration), 
-           qD = interactions_curves$Unique_spp_cumulative,
-           col = "collectors")
-
-#Bind datasets 
-d_int1 = bind_rows(d_int, a_poll)
-d_int1_point = d_int1 %>%  filter(method == "observed")
-d_int1_lines = d_int1 %>%  filter(!method == "observed")
-
-#Plot
-#Order levels
-d_int1_lines$col = factor(d_int1_lines$col, levels = c("collectors", "interpolated", "extrapolated"))
-#Plot
-p3 = ggplot(d_int1_lines, aes(x = t, y = qD, group = method, color = col)) +
-geom_line(aes(linetype = col), size = 0.65) +
-scale_colour_manual(values = c("gray", "black", "red"), labels = c("Randomizations", "Interpolated", "Extrapolated")) +
-scale_linetype_manual(values = c("solid", "solid", "dashed"),  labels = c("Randomizations", "Interpolated", "Extrapolated")) + 
-geom_ribbon(aes(ymin = qD.LCL, 
-    ymax=qD.UCL, fill = col),alpha=0.2, colour = NA, show.legend = FALSE)+
-scale_fill_manual(values = c("gray", "black", "red")) +
-geom_point(data = d_int1_point, col = "black", size=2) + 
-ylab("Interactions") +
-xlab("Sampling sites") +
-theme_bw() +
-coord_cartesian(expand = FALSE, clip = "off")  +
-xlim(0,3000) +
-ylim(0, 30000)+
-ggtitle("(c)")
-
-#----------------#
-#Pollinators
-#----------------#
 #Read data
-data = readRDS("../../Data/Working_files/Interactions_uncounted.rds")%>% 
-mutate(Network_id = paste0(Study_id, Network_id))  
-#First select cols of rank, accepted name and study ID
-#Then select unique levels by study ID
-#Now sum levels (maximum can be as maximum number of studies)
-poll_spread = data %>% 
-select(Pollinator_rank, Pollinator_accepted_name, Network_id) %>% 
-group_by(Network_id) %>% 
-filter(Pollinator_rank == "SPECIES") %>% 
-distinct(Pollinator_accepted_name) %>% 
-ungroup() %>% 
-count(Pollinator_accepted_name) %>% 
-rename(n_networks_shared = n) %>% 
-arrange(-n_networks_shared) %>% 
-mutate(Percent_total = n_networks_shared / n_distinct(data$Network_id))
-  
-#Seelect quantile 50% from the total number of species
-spp_number = poll_spread %>%  
-select(Pollinator_accepted_name) %>% 
-n_distinct()
-df = seq(1, spp_number)
-quantile_50 = quantile(df, 0.5)
+tree_family_interactions= readRDS("../../Data/Manuscript_info/bee_phylo.RData")
+d1 = readRDS("../../Data/Manuscript_info/bee_data.RData")
+n = readRDS("../../Data/Manuscript_info/node_data.RData")
 
-#Obtain most common pollinator for plotting
-most_common_poll = poll_spread %>% filter(n_networks_shared == max(n_networks_shared)) %>%
-select(Pollinator_accepted_name) %>% pull() 
-
-#Plot
-o1 = ggplot(poll_spread, 
-aes(reorder(Pollinator_accepted_name,-Percent_total), Percent_total)) +
-geom_bar(stat = "identity", 
-           color = "#D55E00",
-           lwd = 0.03, fill = "#D55E00") +
-ylab("Shared pollinators (%)") +
-theme_minimal()+
-theme(axis.text.x = element_blank(),
-  axis.ticks.x=element_blank(),
-  axis.ticks.y = element_line(size = 0.2),
-  panel.grid.major.x = element_blank(),
-  panel.grid.minor.y = element_blank(),
-  panel.grid.major.y = element_line(size=0.2, linetype = 2)) +
-xlab("Pollinator species") +
-ylab("Occurrence across sampling sites") + 
-geom_vline(xintercept = quantile_50, linetype="dashed", 
-color = "black", size=0.35) + 
-annotate(geom="text", x=1450, y=0.60, label="50th percentile",color="black", size = 3) +
-annotate(geom="text", x=140, y=0.67, label=most_common_poll[1],color="black",  fontface = 'italic', size = 3)+
-annotate(geom="text", x=200, y=-0.05, label="Common spp."
-      ,color="black",  size = 3) +
-annotate(geom="text", x=1800, y=-0.05, label="\'Rare\' spp."
-      ,color="black",  size = 3)  +
-scale_y_continuous(breaks = seq(0, 0.7, by= 0.25), expand = c(0, 0)) + 
-coord_cartesian(xlim=c(0, nlevels(factor(poll_spread$Pollinator_accepted_name))),
-                ylim=c(0,0.7), clip="off") +
-ggtitle("(e)")
-
-#----------------#
-#Plants
-#----------------#
-plant_spread = data %>% 
-select(Plant_rank, Network_id, Plant_accepted_name) %>% 
-group_by(Network_id) %>% 
-filter(Plant_rank == "SPECIES") %>% 
-distinct(Plant_accepted_name) %>% 
-ungroup() %>% 
-count(Plant_accepted_name) %>% 
-rename(n_networks_shared = n) %>% 
-arrange(-n_networks_shared) %>% 
-mutate(Percent_total = n_networks_shared / n_distinct(data$Network_id))
-  
-#Seelect quantile 50% from the total number of species
-spp_number = plant_spread %>%  
-select(Plant_accepted_name) %>% 
-n_distinct()
-df = seq(1, spp_number)
-quantile_50 = quantile(df, 0.5)
-
-#Obtain most common plant for plotting
-most_common_plant = plant_spread %>% filter(n_networks_shared == max(n_networks_shared)) %>%
-select(Plant_accepted_name) %>% pull() 
-
-o2 = ggplot(plant_spread, 
-aes(reorder(Plant_accepted_name,-Percent_total), Percent_total, fill = Plant_accepted_name)) +
-geom_bar(stat = "identity", 
-           color = "#009E73",
-           lwd = 0.03, fill = "#009E73") +
-theme_minimal()+
-theme(axis.text.x = element_blank(),
-         axis.ticks.x=element_blank(),
-         axis.ticks.y = element_line(size = 0.2),
-         panel.grid.major.x = element_blank(),
-         panel.grid.minor.y = element_blank(),
-         panel.grid.major.y = element_line(size=0.2, linetype =  2)) +
-xlab("Plant species") +
-ylab("Occurrence across sampling sites") + 
-geom_vline(xintercept = quantile_50, linetype="dashed", 
-          color = "black", size=0.35) + 
-annotate(geom="text", x=950, y=0.60, label="50th percentile",color="black", size = 3) + 
-annotate(geom="text", x=100, y=0.4, label=most_common_plant[1]
-      ,color="black",  fontface = 'italic', size = 3)+
-annotate(geom="text", x=150, y=-0.05, label="Common spp."
-      ,color="black",  size = 3) +
-annotate(geom="text", x=1200, y=-0.05, label="\'Rare\' spp."
-      ,color="black",  size = 3) + 
-scale_y_continuous(breaks = seq(0, 0.7, by= 0.25), expand = c(0, 0), labels = label_number(accuracy = 0.01)) +
-coord_cartesian(xlim=c(0, nlevels(factor(plant_spread$Plant_accepted_name))),
-                ylim=c(0, 0.7), clip="off") +
-ggtitle("(f)")
-
-#Pollinator by plant species
-plant_poll_curves = readRDS("../../Data/Working_files/collectors_curves_plant_ploll.rds")
-plant_poll_output = readRDS("../../Data/Working_files/plant_poll_spp_sampling_coverage.rds")
-
-#Create dataset
-d_pp = plant_poll_output$iNextEst$Plant_id
-#Check cols
-d_pp$col = d_pp$method
-
-#Now create tibble with same structure
-a_poll = tibble(t = plant_poll_curves$Plant_sampled, 
-           method = as.character(plant_poll_curves$iteration), 
-           qD = plant_poll_curves$Unique_spp_cumulative,
-           col = "collectors")
-
-#Bind datasets 
-d_pp1 = bind_rows(d_pp, a_poll)
-d_pp1_point = d_pp1 %>%  filter(method == "observed")
-d_pp1_lines = d_pp1 %>%  filter(!method == "observed")
-
-#Plot
-#Order levels
-d_pp1_lines$col = factor(d_pp1_lines$col, levels = c("collectors", "interpolated", "extrapolated"))
-#Plot
-pp1 = ggplot(d_pp1_lines, aes(x = t, y = qD, group = method, color = col)) +
-geom_line(aes(linetype = col)) +
-scale_colour_manual(values = c("gray", "black", "red"), labels = c("Randomizations", "Interpolated", "Extrapolated")) +
-scale_linetype_manual(values = c("solid", "solid", "dashed"),  labels = c("Randomizations", "Interpolated", "Extrapolated")) + 
-geom_ribbon(aes(ymin = qD.LCL, 
-    ymax=qD.UCL, fill = col),alpha=0.2, colour = NA, show.legend = FALSE)+
-scale_fill_manual(values = c("gray", "black", "red")) +
-geom_point(data = d_pp1_point, col = "black") + 
-ylab("Pollinator species") +
-xlab("Plant species") +
-theme_bw() +
-coord_cartesian(expand = FALSE, clip = "off") +
-ggtitle("(d)") +
-scale_x_continuous(breaks = seq(0, 2800, by = 1000), limits=c(0,2800)) +
-scale_y_continuous(breaks = seq(0, 2600, by = 1000), limits=c(0,2600)) +
-theme(legend.position = "none")
-
-#Plot all
-p1 + p2 + p3 + pp1 + o1 + o2 + plot_layout(guides = "collect", nrow = 2, ncol=3) & theme(legend.title=element_blank(),
-      axis.title = element_text(size=12, face = "bold"),
-      axis.text = element_text(size=10),
-      plot.title = element_text(size=18))
-
-#a/b
+tree_family_interactions@data$Spp_number_Europe = log(tree_family_interactions@data$Spp_number_Europe + 1)
+#Circular layour
+ggtree(tree_family_interactions, size=0.6, open.angle=1, alpha=1)+ 
+geom_tippoint(aes(size= Interactions, fill = Interactions), color="black", shape=21) +
+geom_tiplab(linetype='dashed', linesize=.05, offset = 0.065, size=2.9, fontface=1) +
+scale_size(range = c(0,4.5), guide = 'none', breaks = c(3, 6, 9))  +
+scale_fill_continuous(type = "viridis", direction=-1,breaks = c(3, 6, 9)) + 
+ guides(
+    fill = guide_legend(override.aes = list(size=c(3/1.7, 6/1.7, 9/1.7)),
+      title.hjust = 0.5,
+      keywidth = 1,                        # Increase width of fill legend keys
+      keyheight = 2,                     # Increase height of fill legend keys
+      label.theme = element_text(size = 14) # Scale up fill label text size
+    ),
+    size = guide_legend(
+      title.hjust = 0.5,
+      keywidth = 1,                        # Increase width of size legend keys
+      keyheight = 2,                     # Increase height of size legend keys
+      label.theme = element_text(size = 14) # Scale up size label text size
+    )) +
+new_scale_fill() +
+geom_fruit(data = d1, geom=geom_bar,
+                    mapping=aes(y=Genus1, x=Percent, fill = fam_group),
+                    pwidth=0.13, 
+                    orientation="y", 
+                    stat="identity",
+                    color="black",
+                    offset = 0.148,
+            axis.params=list(
+                         axis = "x",
+                         text.size  = 2.5,
+                         hjust  = 1.2,
+                         vjust = 0.5,
+                         nbreak = 3,
+                         fontface = 2
+                     ),
+         grid.params=list()) +
+guides(fill = "none")+
+scale_fill_manual(values = c(a = "tan2", b = "lightgrey"), guide = "none")+
+geom_fruit(geom=geom_bar,
+                    mapping=aes(y=label, x=Spp_number_Europe),
+                    pwidth=0.12, 
+                    orientation="y", 
+                    stat="identity",
+                    color="black",
+                    offset = 0,
+            axis.params=list(
+                         axis = "x",
+                         text.size  = 2.5,
+                         hjust  = -0.2,
+                         vjust = 0.5,
+                         nbreak = 3,
+                         fontface = 2
+                     ),
+         grid.params=list()) +
+annotate("text", x = 14.35, y = 70, label = "EuPPollNet spp\n coverage (%)", size= 3, fontface= "bold") +
+annotate("text", x = 16, y = 70, label = "European\n species", size= 3, fontface= "bold")+
+annotate("text", x = 12.2, y = 70, label = "EuPPollNet\n interactions", size= 3, fontface= "bold")+ 
+new_scale_fill() +
+geom_point2(aes(subset=node==131), color='orange', size=3) +
+geom_point2(aes(subset=node==84), color='orange', size=3) +
+geom_point2(aes(subset=node==73), color='orange', size=3) +
+geom_point2(aes(subset=node==74), color='orange', size=3) +
+geom_point2(aes(subset=node==111), color='orange', size=3)+
+geom_point2(aes(subset=node==91), color='orange', size=3) +
+annotate("text", x = 9.45, y = 2.7, label = "Melittidae", size= 3)+
+annotate("text", x = 7.3, y = 6.4, label = "Andrenidae", size= 3)+
+annotate("text", x = 10.4, y = 12.4, label = "Colletidae", size= 3)+
+annotate("text", x = 5.45, y = 17.3, label = "Halictidae", size= 3)+
+annotate("text", x = 2.25, y = 26.8, label = "Megachilidae", size= 3)+
+annotate("text", x = 2.5, y = 51, label = "Apidae", size= 3) +
+coord_cartesian(clip = "off")+
+ theme(
+    legend.margin = margin(0, 0, 0, 0),                   # No additional margin around the legend
+    legend.spacing.y = unit(0.2, "cm"),                  # Very small vertical spacing
+    plot.margin = margin(4, 0, 10, 0),                     # Adjust plot margins as needed
+    legend.position = c(0.6, -0.005),                           # Position the legend
+    legend.direction = "horizontal",                        # Legend items in a single row
+    legend.key.size = unit(0.2, 'cm'),                    # Smaller key size for compactness
+    legend.spacing.x = unit(0.05, "cm"),                   # Minimal horizontal spacing
+    legend.text = element_text(size = 12),                 # Legend text size
+    legend.title = element_text(size = 16)                 # Legend title size
+  )
 
 
 ```
+

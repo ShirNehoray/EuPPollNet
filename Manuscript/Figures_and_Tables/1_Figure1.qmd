@@ -23,7 +23,7 @@ library(viridis)
 
 
 
-```{r echo=FALSE, message=FALSE, cache=FALSE, warning=FALSE, out.width="110%", fig.cap= "Figure 1"}
+```{r echo=FALSE, message=FALSE, cache=FALSE, warning=FALSE, out.width="105%", fig.cap= "\\textbf{Figure 1}. (\\textbf{a}) Locations of the studies in EuPPollNet across the European continent, showing the total number of pollinator (i.e., orange heptagon) and plant (i.e., green circles) species per study. The sizes of these shapes are proportional to the respective species counts. For visualization purposes, we have selected only a single location per study. (\\textbf{b}) Number of studies by year in EuPPollNet. (\\textbf{c}) Proportion of species and interactions across the four main pollinator orders in EuPPollNet, excluding interactions from \\textit{Apis mellifera}. The total number of species and interactions is indicated in parentheses at the bottom."}
 
 #Load data
 data = readRDS("../../Data/3_Final_data/Interaction_data.rds")
@@ -182,14 +182,15 @@ distinct() %>%
 group_by(Year) %>% 
 summarise(Counts = n())
 
+
 p2  = ggplot(data2, aes(Year, Counts)) +
-geom_col(fill = "gray25", width = 0.9, color="black", linewidth = 0.4) +
+geom_col(fill = "gray35", width = 0.9, color="black", linewidth = 0.25) +
 theme_light() +
-theme(plot.margin=unit(c(0,0,0,0), "mm"),
+theme(plot.margin=unit(c(0,0,-8,0), "cm"),
   axis.title.y = element_text(face = "bold", size = 7, vjust = -2),
-  axis.title.x = element_text(face = "bold", size = 8),
+  axis.title.x = element_text(face = "bold", size = 8, vjust= 4),
   axis.text.y = element_text(size = 6),
-  axis.text.x = element_text(size = 6,  angle = 90), 
+  axis.text.x = element_text(size = 5, angle = 90, vjust=0.45, hjust=1.35), 
   strip.text.x = element_text(size=12),
    axis.ticks.x = element_line(color="black"),
   strip.background = element_rect(
@@ -203,10 +204,12 @@ theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(),
 panel.background = element_blank(),
 panel.border = element_blank(),
 axis.line = element_line(color = 'black')) +
-scale_y_continuous(breaks = c(0, 4,8,12), labels = c("0", "4","8", "12"), limits = c(0,12)) +
-scale_x_continuous(breaks = seq(min(data2$Year), max(data2$Year), by = 2), limits = c(min(data2$Year),max(data2$Year)))+
+scale_y_continuous(breaks = c(0, 4,8,12), labels = c("0", "4","8", "12"), limits = c(0,12)) +scale_x_continuous(breaks = seq(min(data2$Year), max(data2$Year), by = 1), 
+                     labels = ifelse(seq(min(data2$Year), 
+                      max(data2$Year), by = 1) %% 2 == 0, 
+                      seq(min(data2$Year), max(data2$Year), by = 1), ""))+
 ggtitle("(b)") +
-theme(plot.title = element_text(size = 10,hjust = -0.3, vjust = -5))
+theme(plot.title = element_text(size = 10,hjust = -0.4, vjust = -5))
 
 
 
@@ -257,31 +260,32 @@ data_long$Pollinator_order = factor(data_long$Pollinator_order, levels = c("Cole
 p3 = ggplot(data_long, aes(x = Variable, y = Value, fill = Pollinator_order)) + 
 geom_bar(stat = "identity", width = 0.7) +
 theme_classic() +
-scale_fill_viridis(discrete=TRUE, direction = -1, name="Pollinator order") +
+scale_fill_viridis(discrete=TRUE, direction = -1, name="Pollinator\n order") +
 xlab(NULL) +
 ylab("Percentage") + 
 scale_y_continuous(labels = percent_format(), expand = c(0, 0)) +
-theme(axis.text = element_text(size=6), 
+theme(plot.margin=unit(c(-8,0,0,0), "cm"),
+      axis.text = element_text(size=6), 
      axis.title.y = element_text(face = "bold", size = 7, vjust = -2),  
      axis.title.x = element_text(face="bold", size = 7),
      legend.position = "top",
      legend.title = element_text(size = 5, face = "bold"),
      legend.text = element_text(size = 5),
      legend.key.size = unit(3, "mm"),
-     legend.margin=margin(0,0,0,0),
-     legend.box.margin=margin(-8,-5,-5,-5)) +
+     legend.margin=margin(0,2,0,0),
+     legend.box.margin=margin(-9,-9,-6,-6)) +
 guides(fill=guide_legend(nrow=2,byrow=TRUE))+
 ggtitle("(c)") +
-theme(plot.title = element_text(size = 10,hjust = -0.3, vjust = -6)) +
-scale_x_discrete(labels = c("Species\n (2172)", "Interactions\n (358,049)"))
+theme(plot.title = element_text(size = 10,hjust = -0.4, vjust = -6)) +
+scale_x_discrete(labels = c("Species\n (2,172)", "Interactions\n (358,049)")) 
 
 
 
 #plot2 = p3 / p1 / p2 
-plot2 = p2 / p3 
+plot2 = p2 /plot_spacer() /p3 + plot_layout(heights = c(4, -1.2, 4))
 
 #Plot everything
 map + plot_spacer() + plot2 + plot_layout(widths = c(2.1, -0.485, 0.8)) 
 
-```
 
+```
