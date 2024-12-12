@@ -49,15 +49,16 @@ library(dplyr)
 library(stringr)
 library(tidyr)
 library(lubridate)
+library(tibble)
 
 #Step 1: Read data
 data = readRDS("Data/3_Final_data/Interaction_data.rds")
 
 #Step 2: Split date into 3 cols to have year in a single column
 data = data %>%
-dplyr::mutate(Year = year(Date), 
-                Month = month(Date), 
-                Day = day(Date))
+mutate(Year = year(Date), 
+       Month = month(Date),
+       Day = day(Date))
 
 #Step 3: Generate a unique a id for a network per study
 long_format = data %>% 
@@ -77,7 +78,7 @@ sum_interactions = function(data) {
   pivot_wider(names_from = Pollinator_accepted_name, 
                       values_from = Interactions,
                       values_fill = 0) %>% 
-  tibble::column_to_rownames("Plant_accepted_name") %>% 
+  column_to_rownames("Plant_accepted_name") %>% 
   as.matrix()
 }
 
