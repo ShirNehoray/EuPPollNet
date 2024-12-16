@@ -610,6 +610,8 @@ mutate(Fixed = case_when(
   Mismatch == "Gelechioidea sp1" ~ "Lepidoptera", #Higher rank
   Mismatch == "Chalcidoidea sp1" ~ "Hymenoptera", #Higher rank
   Mismatch == "Yponomeutoidea sp1" ~ "Lepidoptera", #Higher rank
+  Fixed == "Scatophagidae" ~ "Sarcophagidae", #Higher rank
+  Fixed == "Cryptinae" ~ "Ichneumonidae", #Higher rank
   T ~ Fixed)) %>% 
   rename(Old_name = Mismatch, Name = Fixed) 
 
