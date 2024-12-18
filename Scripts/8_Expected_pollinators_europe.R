@@ -27,14 +27,19 @@ lepidoptera_spp =readRDS("Data/Manuscript_info/lepidoptera_spp.RData")
 spp_main_groups = (bees_spp + syrphid_spp + lepidoptera_spp)
 #Check number of pollinator species
 pollinator_spp_number = data %>% 
-select(Pollinator_rank, Pollinator_accepted_name)%>%
+dplyr::select(Pollinator_rank, Pollinator_accepted_name)%>%
 filter(Pollinator_rank == "SPECIES") %>% 
-select(Pollinator_accepted_name) %>% 
+dplyr::select(Pollinator_accepted_name) %>% 
 n_distinct()
 #substract species of main groups
 other_spp = pollinator_spp_number - spp_main_groups
 #Let's assume constant coverage and extrapolate potential number of species
 extrapolated_other_spp = other_spp + other_spp * (1-average_coverage/100)
+
+coverage_5_percent = other_spp + other_spp * (1-5/100)
+coverage_95_percent = other_spp + other_spp * (1-95/100)
+
+
 saveRDS(extrapolated_other_spp, "Data/Manuscript_info/other_taxa_potential_spp.RData")
 
 #Add number of species of main groups now
@@ -46,6 +51,9 @@ potential_spp_main_groups = bee_potential_spp + syrphid_potential_spp + lepidopt
 
 #Add other spp
 total_expected_spp = potential_spp_main_groups + extrapolated_other_spp
+total_expected_5_percent_coverage = potential_spp_main_groups + coverage_5_percent
+total_expected_95_percent_coverage = potential_spp_main_groups + coverage_95_percent
+
 total_expected_spp 
 # Approximately 5000 species
 
