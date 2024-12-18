@@ -40,7 +40,15 @@ colnames(poll) = "Network_id"
 
 #Calculate sampling coverage
 poll_output = iNEXT(poll, datatype = 'incidence_freq')
+
+d = as_tibble(poll_output$iNextEst$size_based)
+d1 = d %>% filter(t == max(t))
+
+poll_total_others = d1$qD/d1$SC
+poll_total_others_lower = d1$qD.LCL/d1$SC.LCL
+poll_total_others_upper = d1$qD.UCL/d1$SC.UCL
 #Save output
-#saveRDS(poll_output, "Data/Working_files/pollinator_sampling_coverage.rds")
-#Plot
-ggiNEXT(poll_output, type=1) 
+saveRDS(poll_total_others, "Data/Working_files/poll_total_others.rds")
+saveRDS(poll_total_others_lower, "Data/Working_files/poll_total_others_lower.rds")
+saveRDS(poll_total_others_upper, "Data/Working_files/poll_total_others_upper.rds")
+

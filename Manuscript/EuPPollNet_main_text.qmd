@@ -761,7 +761,7 @@ Finally, to evaluate if the presence-absence of interaction records for bees and
 
 ## Sampling coverage 
 
-The completeness of the EuPPollNet database was evaluated by exploring the rarefied accumulation curves of plant and pollinator species and their interactions across the different networks. In addition, we computed the  accumulation curve of pollinator species with an increasing number of plant species as an indicator for how many pollinator species are likely responsible for the pollination of flowering plants [e.g., @kleijn2015 for crops]. The rarefied and extrapolated sampling curves were obtained using the **iNEXT** package [@hsieh2016]. The different rarefied curves were complemented with 100 bootstrapped accumulation curves.
+The completeness of the EuPPollNet database was evaluated by exploring the rarefied accumulation curves of plant and pollinator species and their interactions across the different networks. In addition, we computed the  accumulation curve of pollinator species with an increasing number of plant species as an indicator for how many pollinator species are likely responsible for the pollination of flowering plants [e.g., @kleijn2015 for crops]. The rarefied and extrapolated sampling curves were obtained using the **iNEXT** package. The different rarefied curves were complemented with 100 bootstrapped accumulation curves.
 
 ## Habitat type and biogeographic region
 
@@ -945,6 +945,15 @@ syrphid_potential_spp = readRDS("../Data/Manuscript_info/syrphid_potential_spp.R
 lepidoptera_potential_spp = readRDS("../Data/Manuscript_info/lepidoptera_potential_spp.RData")
 extrapolated_other_spp = readRDS("../Data/Manuscript_info/other_taxa_potential_spp.RData")
 extrapolated_other_spp = round(extrapolated_other_spp)
+
+#Load number of species
+poll_total_others = readRDS("../Data/Working_files/poll_total_others.rds")
+poll_total_others = round(poll_total_others)
+poll_total_others_lower = readRDS("../Data/Working_files/poll_total_others_lower.rds")
+poll_total_others_lower = round(poll_total_others_lower)
+poll_total_others_upper =readRDS("../Data/Working_files/poll_total_others_upper.rds")
+poll_total_others_upper = round(poll_total_others_upper)
+
 ```
 
 ## Taxonomic coverage
