@@ -106,6 +106,12 @@ select(Study_id, Network_id, Site_id, Sampling_method, Authors_habitat,
        Pollinator_rank, Pollinator_status, Pollinator_matchtype, Pollinator_order, Pollinator_family, 
        Pollinator_genus, Pollinator_unsure_id, Pollinator_uncertainty_type, Flower_data, Flower_data_merger)
 
+#Exclude Acari
+#As we do not consider them pollinators
+
+data1 = data1 %>% 
+filter(!Pollinator_order == "Trombidiformes")
+
 #----------------------
 #Save data
 #----------------------
