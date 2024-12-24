@@ -22,11 +22,17 @@ between(z_score, -abs(critical_value), abs(critical_value)) ~ "No statistical di
     z_score > abs(critical_value) ~ "Over-represented"
   ))
 
+
+#filter out NA's
+d1 = d1 %>% 
+filter(!is.na(infra_over_represented))
+
 #Calculate percentages
 colnames(d1)
 z_percent = d1 %>% 
 group_by(infra_over_represented) %>% 
 summarise(percent = length(infra_over_represented)/nrow(.) * 100)
+
 #Save data
 saveRDS(z_percent, "Data/Manuscript_info/z_percent_curveball.rds")
 
