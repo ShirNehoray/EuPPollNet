@@ -417,7 +417,7 @@ mailand_studies_percent = round(100 - length(island_studies)/study_number*100)
 **Major taxa and level of measurement:** The database contains interaction data at the species level for `r trunc(species_level_int)`% of the records, including a total of `r prettyNum(plant_spp_number, big.mark=",")` plant and `r prettyNum(pollinator_spp_number, big.mark=",")` pollinator species. The database includes data on `r ceiling(plant_coverage)`% of the European species of flowering plants, `r trunc(bee_coverage)`% of bees, `r trunc(lepidoptera_coverage)`% of butterflies, and `r trunc(syrphid_coverage)`% of syrphid species at the European level.
 
 
-**Software format:** The database was built with R and is stored in “.rds” and “.csv” formats. Its construction is fully reproducible and can be accessed at: <https://doi.org/10.5281/zenodo.13885274>.
+**Software format:** The database was built with R and is stored in “.rds” and “.csv” formats. Its construction is fully reproducible and can be accessed at: <https://doi.org/10.5281/zenodo.14551579>.
 
 
 **KEYWORDS**\
@@ -727,7 +727,7 @@ map + plot_spacer() + plot2 + plot_layout(widths = c(2.1, -0.485, 0.8))
 
 ## Data structure
 
-The EuPPollNet database is available in both .csv and .rds formats and contains a total of `r nrow(my_tibble)` columns (**Table 1**), where each row represents a single interaction between a plant and a pollinator species. These columns include information about the study and network identifiers (columns 1 and 2), sampling method (3), habitat type as described by the author, and a unified habitat classification across studies (4 and 5), biogeographic region where the network is located (6), country, locality, and latitude-longitude coordinates (7 to 10), date of the interaction (11), number of interactions (12), taxonomic information about plants (13 to 20), taxonomic information about pollinators (21 to 28), and information about the availability of floral count data (29). The flower count data is provided in a separate file (.csv or .rds) and can be merged with the interaction data through the "Flower_data_merger" column (30). Note that although two-thirds of studies include information on floral abundance, the methods and units vary greatly across studies. To construct a plant-pollinator network matrix within a single flowering season at the site level, users should group interactions by plant and pollinator species, site, study, and year (see a detailed example at <https://github.com/JoseBSL/EuPPollNet>). Finally, metadata at the study level is provided in a separate file, including information about the authors, digital object identifier (if available), sampling time, and taxonomic coverage of the main pollinator groups for each study.
+The EuPPollNet database is available in both .csv and .rds formats and contains a total of `r nrow(my_tibble)` columns (**Table 1**), where each row represents a single interaction between a plant and a pollinator species. These columns include information about the study and network identifiers (columns 1 and 2), sampling method (3), habitat type as described by the author, and a unified habitat classification across studies (4 and 5), biogeographic region where the network is located (6), country, locality, and latitude-longitude coordinates (7 to 10), date of the interaction (11), number of interactions (12), taxonomic information about plants (13 to 20), taxonomic information about pollinators (21 to 28), and information about the availability of floral count data (29). The flower count data is provided in a separate file (.csv or .rds) and can be merged with the interaction data through the "Flower_data_merger" column (30). Note that although two-thirds of studies include information on floral abundance, the methods and units vary greatly across studies. To construct a plant-pollinator network matrix within a single flowering season at the site level, users should group interactions by plant and pollinator species, site, study, and year (see a detailed example in the README file at <https://doi.org/10.5281/zenodo.14551579>). Finally, metadata at the study level is provided in a separate file, including information about the authors, digital object identifier (if available), sampling time, and taxonomic coverage of the main pollinator groups for each study.
 
 \newpage
 
@@ -1975,7 +1975,7 @@ In conclusion, the EuPPollNet database enables researchers to explore spatial, t
 
 # DATA AVAILABILITY
 
-All data and code to produce this database and manuscript are available at Zenodo (<https://doi.org/10.5281/zenodo.13885274>) and Github (<https://github.com/JoseBSL/EuPPollNet>).
+All data and code to produce this database and manuscript are available at Zenodo (<https://doi.org/10.5281/zenodo.14551579>).
 
 
 
