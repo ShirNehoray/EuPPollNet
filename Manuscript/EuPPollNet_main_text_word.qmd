@@ -1,17 +1,8 @@
 ---
 title: "EuPPollNet: A European database of plant-pollinator networks"
-format:
-  pdf:
-    include-in-header: 
-      text: |
-        \usepackage{lscape}
-        \newcommand{\blandscape}{\begin{landscape}}
-        \newcommand{\elandscape}{\end{landscape}}
-        \usepackage{caption}
-        \captionsetup[figure]{labelformat=empty}
-        \captionsetup[table]{labelformat=empty}
-        \usepackage{lineno}
-        \linenumbers
+format: docx
+editor: visual
+prefer-html: true
 bibliography: references.bib
 csl: apa_7th.csl
 latex-tinytex: false
@@ -19,6 +10,7 @@ link-citations: TRUE
 linkcolor: RoyalBlue
 urlcolor: RoyalBlue
 ---
+
 
 ```{r Load libraries, echo=FALSE, message=FALSE, cache=FALSE, warning=FALSE}
 library(dplyr) #For handling fata 
@@ -417,7 +409,7 @@ mailand_studies_percent = round(100 - length(island_studies)/study_number*100)
 **Major taxa and level of measurement:** The database contains interaction data at the species level for `r trunc(species_level_int)`% of the records, including a total of `r prettyNum(plant_spp_number, big.mark=",")` plant and `r prettyNum(pollinator_spp_number, big.mark=",")` pollinator species. The database includes data on `r ceiling(plant_coverage)`% of the European species of flowering plants, `r trunc(bee_coverage)`% of bees, `r trunc(lepidoptera_coverage)`% of butterflies, and `r trunc(syrphid_coverage)`% of syrphid species at the European level.
 
 
-**Software format:** The database was built with R and is stored in “.rds” and “.csv” formats. Its construction is fully reproducible and can be accessed at: <https://doi.org/10.5281/zenodo.14747448>.
+**Software format:** The database was built with R and is stored in “.rds” and “.csv” formats. Its construction is fully reproducible and can be accessed at: <https://doi.org/10.5281/zenodo.14551579>.
 
 
 **KEYWORDS**\
@@ -737,7 +729,8 @@ The EuPPollNet database is available in both .csv and .rds formats and contains 
 my_tibble = my_tibble %>% 
 mutate(Variable = paste0(seq(1:length(Variable)),". ", Variable))
 
-kable(my_tibble, booktabs = T, linesep = "\\addlinespace", caption = "\\textbf{Table 1.} Column names and their descriptions within the EuPPollNet database.") %>%
+kable(my_tibble, booktabs = T, linesep = "\\addlinespace", caption = "\\textbf{Table 1.} Column names and their descriptions within the EuPPollNet database.",
+      format = "latex") %>%
   kable_styling(full_width = F,font_size = 9) %>% row_spec(0, bold=T) %>% 
 kable_styling(position = "center")
 
@@ -972,7 +965,7 @@ poll_total_others_upper = round(poll_total_others_upper)
 
 ## Taxonomic coverage
 
-Europe hosts approximately over 5,000 species of pollinators, including `r prettyNum(bee_potential_spp, big.mark=",")` bee species `r prettyNum(syrphid_potential_spp, big.mark=",")` syrphid species, `r prettyNum(lepidoptera_potential_spp, big.mark=",")` butterfly species, and about 1,400 species from other taxonomic groups. These represent a total of 13 taxonomic orders, which account for less than 1% of the total interactions within the database (e.g., the taxonomic orders with the most interactions include Hemiptera, Thysanoptera, Squamata, and Orthoptera). Additionally, there are around 25,000 species of plants that benefit from animal pollination when excluding wind pollinated species. EuPPollNet contains a total of `r prettyNum(pollinator_spp_number, big.mark=",")` pollinators and `r prettyNum(plant_spp_number, big.mark=",")` plant species. The coverage of the main pollinator groups occurring in Europe is `r trunc(bee_coverage)`% for bees, `r trunc(syrphid_coverage)`% for syrphids and `r trunc(lepidoptera_coverage)`% for butterflies (see **Figure S2** for coverage at the family level for bees and butterflies, and at the subfamily level for syrphids). Bees (i.e., Anthophila) constitute `r trunc(bee_interactions_percent)`% of the interactions in EuPPollNet, and `r trunc(bee_interactions_non_apis_percent)`% of the interactions when excluding honey bees. Within the database, `r trunc(bee_genera_percent_coverage)`% of bee genera have at least one species with interaction records, and the average coverage of species at the bee genus level is `r trunc(average_coverage_bee_genera)`% (**Figure 2**). The presence or absence of interaction records for bees does not follow a phylogenetic pattern ($\lambda$ = `r format(round(lambda_phylosig_bees, 2), nsmall=2)`; _P_ = `r format(round(p_phylosig_bees, 2), nsmall=2)`). The database coverage of all flowering plant species occurring in Europe is around `r ceiling(plant_coverage)`% (**Figure 3**), with an average coverage of `r trunc(mean_plant_fam_cov)`% at the plant family level. Approximately, half of the plant families have at least one species with interaction records (`r trunc(percent_plant_fam_with_data)`%), and the presence or absence of interaction data for the different plant species also does not follow a statistically relevant phylogenetic pattern ($\lambda$ = `r format(round(lambda_phylosig_plants, 2), nsmall=2)`; _P_ = `r format(round(p_phylosig_plants, 2), nsmall=2)`). 
+Europe hosts approximately over 5,000 species of pollinators, including `r prettyNum(bee_potential_spp, big.mark=",")` bee species `r prettyNum(syrphid_potential_spp, big.mark=",")` syrphid species, `r prettyNum(lepidoptera_potential_spp, big.mark=",")` butterflies species, and about 1,400 species from other taxonomic groups. These represent a total of 13 taxonomic orders, which account for less than 1% of the total interactions within the database (e.g., the taxonomic orders with the most interactions include Hemiptera, Thysanoptera, Squamata, and Orthoptera). Additionally, there are around 25,000 species of plants that benefit from animal pollination when excluding wind pollinated species. EuPPollNet contains a total of `r prettyNum(pollinator_spp_number, big.mark=",")` pollinators and `r prettyNum(plant_spp_number, big.mark=",")` plant species. The coverage of the main pollinator groups occurring in Europe is `r trunc(bee_coverage)`% for bees, `r trunc(syrphid_coverage)`% for syrphids and `r trunc(lepidoptera_coverage)`% for butterflies (see **Figure S2** for coverage at the family level for bees and butterflies, and at the subfamily level for syrphids). Bees (i.e., Anthophila) constitute `r trunc(bee_interactions_percent)`% of the interactions in EuPPollNet, and `r trunc(bee_interactions_non_apis_percent)`% of the interactions when excluding honey bees. Within the database, `r trunc(bee_genera_percent_coverage)`% of bee genera have at least one species with interaction records, and the average coverage of species at the bee genus level is `r trunc(average_coverage_bee_genera)`% (**Figure 2**). The presence or absence of interaction records for bees does not follow a phylogenetic pattern ($\lambda$ = `r format(round(lambda_phylosig_bees, 2), nsmall=2)`; _P_ = `r format(round(p_phylosig_bees, 2), nsmall=2)`). The database coverage of all flowering plant species occurring in Europe is around `r ceiling(plant_coverage)`% (**Figure 3**), with an average coverage of `r trunc(mean_plant_fam_cov)`% at the plant family level. Approximately, half of the plant families have at least one species with interaction records (`r trunc(percent_plant_fam_with_data)`%), and the presence or absence of interaction data for the different plant species also does not follow a statistically relevant phylogenetic pattern ($\lambda$ = `r format(round(lambda_phylosig_plants, 2), nsmall=2)`; _P_ = `r format(round(p_phylosig_plants, 2), nsmall=2)`). 
 
 
 
@@ -1566,7 +1559,7 @@ p1 + p2 + p3 + pp1 + o1 + o2 + plot_layout(guides = "collect", nrow = 2, ncol=3)
 The proportion of species from the major pollinator orders within the database differed across habitats and biogeographic regions (**Figure 5**). Hymenoptera was the main taxonomic order in the majority of habitats, exceeded only by Diptera for the habitat categories of riparian vegetation and moors and heathland. Overall, the proportions of flower visitors from Lepidoptera and Coleoptera were low across all habitats but Coleopteran flower visitors were notably more abundant in sclerophyllous vegetation and beaches, dunes and sands habitat categories. Similar patterns were observed when exploring the pollinator proportions by biogeographic region. Hymenopterans were abundant across all biogeographic regions and Dipterans were particularly abundant in the Boreal, Alpine and Atlantic regions. Lepidopterans had low proportions across all biogeographic regions and Coleopterans were only relevant in the Mediterranean region at European level. Notably, the number of studies (**Figure 5**) and sampling sites (**Figure S3**) also differed across habitats and biogeographic regions. The habitats sampled by a higher number of studies in the database were `r studies_by_habitat$EuPPollNet_habitat[[1]]` (`r studies_by_habitat$Habitat_count[[1]]`), `r studies_by_habitat$EuPPollNet_habitat[[2]]` (`r studies_by_habitat$Habitat_count[[2]]`) and `r studies_by_habitat$EuPPollNet_habitat[[3]]` (`r studies_by_habitat$Habitat_count[[3]]`). However, the habitats that contain a higher number of sampling sites were `r networks_by_habitat$EuPPollNet_habitat[[1]]` (`r networks_by_habitat$Habitat_count[[1]]`), `r networks_by_habitat$EuPPollNet_habitat[[2]]` (`r networks_by_habitat$Habitat_count[[2]]`) and `r networks_by_habitat$EuPPollNet_habitat[[3]]` (`r networks_by_habitat$Habitat_count[[3]]`). The biogeographic regions with a higher number of studies were `r str_to_title(studies_by_bioregion$Bioregion[[1]])` (`r studies_by_bioregion$Bioregion_count[[1]]`), `r str_to_title(studies_by_bioregion$Bioregion[[2]])` (`r studies_by_bioregion$Bioregion_count[[2]]`) and `r str_to_title(studies_by_bioregion$Bioregion[[3]])` (`r studies_by_bioregion$Bioregion_count[[3]]`); and those that contain a higher number of sampling sites were `r str_to_title(networks_by_bioregion$Bioregion[[1]])` (`r networks_by_bioregion$Bioregion_count[[1]]`), `r str_to_title(networks_by_bioregion$Bioregion[[2]])` (`r networks_by_bioregion$Bioregion_count[[2]]`) and `r str_to_title(networks_by_bioregion$Bioregion[[3]])` (`r networks_by_bioregion$Bioregion_count[[3]]`). 
 
 
-```{r echo=FALSE, message=FALSE, cache=FALSE, warning=FALSE, out.width="95%", fig.cap= "\\textbf{Figure 5}. Proportion of species from the major pollinator orders by habitat types and biogeographic regions in the EuPPollNet database. The orders, from left to right, include Hymenoptera, Diptera, Lepidoptera and Coleoptera. The horizontal bar plot on the right indicates the number of studies that were conducted on each habitat type or biogeographic region. Note that a single study can contribute to more than one habitat or biogeographic region. Areas with a greater number of studies are more likely to depict accurate proportions of the different pollinator orders in those systems. The Pannonian and Steppic bioregions were excluded from this visualization because they contain only few networks from a single sampling day and site.", fig.width=4.5, fig.height=8, fig.align='center'}
+```{r echo=FALSE, message=FALSE, cache=FALSE, warning=FALSE, out.width="95%", fig.cap= "\\textbf{Figure 5}. Proportion of species from the major pollinator orders by habitat types and biogeographic regions in the EuPPollNet database. The orders, from left to right, include Hymenoptera, Diptera, Lepidoptera and Coleoptera. The horizontal barplot on the right indicates the number of studies that were conducted on each habitat type or biogeographic region. Note that a single study can contribute to more than one habitat or biogeographic region. Areas with a greater number of studies are more likely to depict accurate proportions of the different pollinator orders in those systems. The Pannonian and Steppic bioregions were excluded from this visualization because they contain only few networks from a single sampling day and site.", fig.width=4.5, fig.height=8, fig.align='center'}
 
 library(ggforce)
 
@@ -1976,7 +1969,7 @@ In conclusion, the EuPPollNet database enables researchers to explore spatial, t
 
 # DATA AVAILABILITY
 
-All data and code to produce this database and manuscript are available at Zenodo (<https://doi.org/10.5281/zenodo.14747448>).
+All data and code to produce this database and manuscript are available at Zenodo (<https://doi.org/10.5281/zenodo.14551579>).
 
 
 
