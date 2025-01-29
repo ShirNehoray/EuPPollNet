@@ -257,7 +257,7 @@ each subtransect in different habitat types."
 10_Vanbergen,Total_plant_species,174
 10_Vanbergen,Total_pollinator_species,281
 10_Vanbergen,Floral_counts,Unprocessed
-11_Clough,Doi,NA
+11_Clough,Doi,https://doi.org/10.1016/j.agee.2025.109514
 11_Clough,Dataset_description,"This dataset documents 18 different sites in southernmost Sweden
 (Scania) along a gradient of landscape scale land-use composition.
 The focal habitat are Fennoscandian lowland species-rich dry to mesic grasslands.
@@ -1258,3 +1258,82 @@ on Syrphidae and Bombyliidae), Coleoptera and Lepidoptera"
 51_Petanidou,Total_plant_species,140
 51_Petanidou,Total_pollinator_species,306
 51_Petanidou,Floral_counts,Yes
+52_Hadrava,Doi,http://hdl.handle.net/20.500.11956/81227
+52_Hadrava,Dataset_description,"I provide 49 small pollination networks
+from various sites across central and
+eastern Europe. The idea of the study was to get as
+small networks as possible (sampled within small and homogeneous spatial and temporal scale),
+so the structure of the network is not affected by spatial or
+temporal turnover of species -there are no missing links sensu Olesen et al. 2011-.
+Each network was sampled in standardised area of 200 m^2.
+The area was delimited by 50 m long rope and plant-pollinator interactions
+were sampled on all flowering plants within distance of 2 meters
+from the rope (on both sides from the rope).
+The interactions from each side of the rope were recorded
+separatedly, so we can divide each network into 2 sub-networks
+and use them for cross-validation. Terms of use:
+The data have not been published yet (I have many more samples where species
+have not been identified yet and I’d like to carry out
+the analyses once I’ll have the whole dataset.
+If the data would be useful for some other project,
+I’m willing to provide them, but as they are not published yet,
+I would like to be informed about the purpose for which they will
+be used and I would like to get an opportunity to become co-author of any
+publication where the data are used."
+52_Hadrava,Taxa_recorded,All flower visitors
+52_Hadrava,Sampling_year,2015
+52_Hadrava,Country,Many
+52_Hadrava,Habitat,Many
+52_Hadrava,Sampling_sites,48
+52_Hadrava,Sampling_rounds,NA
+52_Hadrava,Sampling_method,Transects
+52_Hadrava,Sampling_area_details,NA
+52_Hadrava,Sampling_area_species_m2,NA
+52_Hadrava,Sampling_area_total_m2,NA
+52_Hadrava,Sampling_time_details,NA
+52_Hadrava,Sampling_time_species_round_min,NA
+52_Hadrava,Sampling_time_total_min,NA
+52_Hadrava,Total_plant_species,126
+52_Hadrava,Total_pollinator_species,291
+52_Hadrava,Floral_counts,No
+53_Libran-embid,Doi,https://doi.org/10.1111/ele.13892
+53_Libran-embid,Dataset_description,"Plant-pollinator interactions from calcareous grasslands located in central Germany.
+Observation plots were circular (3 m radius, 28.3 m2) and were established in flower-rich areas"
+53_Libran-embid,Taxa_recorded,Hymenoptera and Lepidoptera
+53_Libran-embid,Sampling_year,2017 to 2018
+53_Libran-embid,Country,Germany
+53_Libran-embid,Habitat,Calcareous grasslands
+53_Libran-embid,Sampling_sites,29
+53_Libran-embid,Sampling_rounds,NA
+53_Libran-embid,Sampling_method,Plots
+53_Libran-embid,Sampling_area_details,NA
+53_Libran-embid,Sampling_area_species_m2,NA
+53_Libran-embid,Sampling_area_total_m2,NA
+53_Libran-embid,Sampling_time_details,NA
+53_Libran-embid,Sampling_time_species_round_min,NA
+53_Libran-embid,Sampling_time_total_min,NA
+53_Libran-embid,Total_plant_species,137
+53_Libran-embid,Total_pollinator_species,136
+53_Libran-embid,Floral_counts,No
+54_Lazaro,Doi,https://doi.org/10.1111/1365-2435.14160
+54_Lazaro,Dataset_description,"This dataset documents 20 different sites in Mallorca,
+along a habitat loss gradient. The focal habitat is natural shrublands of wild Olea europaea.
+We estimated plant-pollinator interactions along 3 fixed transects of 100 x2 m 1n 1 ha,
+and flower abundance (30 sampling 1 x1 m squares).  Seven sampling censuses of 60 minutes
+per study site in 2018. We covered the full phenology of most plants and pollinators."
+54_Lazaro,Taxa_recorded,All flower visitors
+54_Lazaro,Sampling_year,2018
+54_Lazaro,Country,Spain
+54_Lazaro,Habitat,Scrubland
+54_Lazaro,Sampling_sites,20
+54_Lazaro,Sampling_rounds,
+54_Lazaro,Sampling_method,
+54_Lazaro,Sampling_area_details,
+54_Lazaro,Sampling_area_species_m2,NA
+54_Lazaro,Sampling_area_total_m2,NA
+54_Lazaro,Sampling_time_details,
+54_Lazaro,Sampling_time_species_round_min,NA
+54_Lazaro,Sampling_time_total_min,NA
+54_Lazaro,Total_plant_species,108
+54_Lazaro,Total_pollinator_species,370
+54_Lazaro,Floral_counts,Yes
