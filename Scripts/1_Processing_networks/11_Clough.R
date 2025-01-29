@@ -4,6 +4,7 @@
 library(tidyverse)
 #Load function to unify structure of data
 source("Scripts/Processing/Functions/Change_str.R")
+source("Scripts/Processing/Functions/Empty_templates.R")
 
 #Prepare interaction data ----
 data = read_csv("Data/1_Raw_data/11_Clough/Interaction_data.csv") %>% 
@@ -28,15 +29,22 @@ mutate(Flower_data_merger = paste0(word(Plant_species,1),word(Plant_species,2), 
 #Unify structure of data
 data = change_str(data)
 
-#Convert coordinates to lat/lon
-library(rgdal)
-coordinates = data %>% select(Longitude, Latitude)
-coordinates <- SpatialPoints (coordinates, proj4string = CRS ('+proj=utm +zone=33 +ellps=GRS80 +towgs84=0,0,0,0,0,0,0 +units=m +no_defs'))
-cord.WGS84 <- spTransform(coordinates, CRS('+proj=longlat +datum=WGS84 +no_defs'))
-#Add new cols to the tibble
+#Before I was using RGDAL but is no longer maintained
+library(sf)
+#UTM coordinates
+utm_coords = data.frame(easting = data$Longitude, northing = data$Latitude)
+#Convert to a simple feature object with UTM CRS
+utm_sf = st_as_sf(utm_coords, coords = c("easting", "northing"), crs = 32633)
+# ransform to WGS84 latitude and longitude
+lat_long <- st_transform(utm_sf, crs = 4326)
+lat_long_df <- lat_long %>%
+  st_coordinates() %>%
+  as.data.frame() %>%
+  rename(Longitde = X, Latitude = Y)
+#Insert back the coordinates
 data = data %>% 
-mutate(Latitude = cord.WGS84$Latitude) %>% 
-mutate(Longitude = cord.WGS84$Longitude)
+mutate(Latitude = lat_long_df$Latitude) %>% 
+mutate(Longitude = lat_long_df$Longitde)
 
 #Filter some random records with site_ID AS NA
 data = data %>% 
@@ -85,7 +93,7 @@ plant_single_cases = data %>% distinct(Plant_species)
 pollinator_single_cases = data %>%distinct(Pollinator_species)
 
 Metadata <- tibble(
-Doi = NA,
+Doi = "https://doi.org/10.1016/j.agee.2025.109514",
 Dataset_description = "This dataset documents 18 different sites in southernmost Sweden
 (Scania) along a gradient of landscape scale land-use composition.
 The focal habitat are Fennoscandian lowland species-rich dry to mesic grasslands.
