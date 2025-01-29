@@ -1,5 +1,5 @@
 #------------------------------------------------#
-#Prepare metadata at NETWORK LEVEL from Safenet
+#Prepare metadata at NETWORK LEVEL from EuPPolNet
 #------------------------------------------------#
 
 #Workflow:
@@ -114,7 +114,7 @@ rename(Hymenoptera_percent = Hymenoptera,
 metadata = left_join(dates1, taxo_info1)
 
 #Load data to google sheets
-(ss <- gs4_create("Network_level", sheets = metadata))
+#(ss <- gs4_create("Network_level", sheets = metadata))
 
 
 

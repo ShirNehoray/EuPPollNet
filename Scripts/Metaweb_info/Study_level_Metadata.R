@@ -1,5 +1,5 @@
 #------------------------------------------------#
-#Prepare metadata at STUDY LEVEL from Safenet
+#Prepare metadata at STUDY LEVEL from EuPPolNet
 #------------------------------------------------#
 
 #Workflow:
