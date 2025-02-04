@@ -10,6 +10,8 @@
 
 * [Citation guidelines](#Citation-guidelines)
 
+* [Indexing](#Indexing)
+
 
 ### Project
 
@@ -89,11 +91,24 @@ matrices_list = map(long_format_list, sum_interactions)
 
 ```
 
-
-
 ### Citation guidelines
 
-If you use this database in your research, please make sure to cite this data paper.
+If you use this database in your research, please make sure to cite this data paper:
+
+``` r
+@article{https://doi.org/10.1111/geb.70000,
+author = {Lanuza, Jose B. and Knight, Tiffany M. and Montes-Perez, Nerea and Glenny, Will and Acuña, Paola and Albrecht, Matthias and Artamendi, Maddi and Badenhausser, Isabelle and Bennett, Joanne M. and Biella, Paolo and Bommarco, Ricardo and Cappellari, Andree and Castro, Sílvia and Clough, Yann and Colom, Pau and Costa, Joana and Cyrille, Nathan and de Manincor, Natasha and Dominguez-Lapido, Paula and Dominik, Christophe and Dupont, Yoko L. and Feldmann, Reinart and Felten, Emeline and Ferrero, Victoria and Fiordaliso, William and Fisogni, Alessandro and Fitzpatrick, Úna and Galloni, Marta and Gaspar, Hugo and Gazzea, Elena and Goia, Irina and Gómez-Martínez, Carmelo and González-Estévez, Miguel A. and González-Varo, Juan Pedro and Grass, Ingo and Hadrava, Jiří and Hautekèete, Nina and Hederström, Veronica and Heleno, Ruben and Hervias-Parejo, Sandra and Heuschele, Jonna M. and Hoiss, Bernhard and Holzschuh, Andrea and Hopfenmüller, Sebastian and Iriondo, José M. and Jauker, Birgit and Jauker, Frank and Jersáková, Jana and Kallnik, Katharina and Karise, Reet and Kleijn, David and Klotz, Stefan and Krausl, Theresia and Kühn, Elisabeth and Lara-Romero, Carlos and Larkin, Michelle and Laurent, Emilien and Lázaro, Amparo and Librán-Embid, Felipe and Liu, Yicong and Lopes, Sara and López-Núñez, Francisco and Loureiro, João and Magrach, Ainhoa and Mänd, Marika and Marini, Lorenzo and Mas, Rafel Beltran and Massol, François and Maurer, Corina and Michez, Denis and Molina, Francisco P. and Morente-López, Javier and Mullen, Sarah and Nakas, Georgios and Neuenkamp, Lena and Nowak, Arkadiusz and O'Connor, Catherine J. and O'Rourke, Aoife and Öckinger, Erik and Olesen, Jens M. and Opedal, Øystein H. and Petanidou, Theodora and Piquot, Yves and Potts, Simon G. and Power, Eileen F. and Proesmans, Willem and Rakosy, Demetra and Reverté, Sara and Roberts, Stuart P. M. and Rundlöf, Maj and Russo, Laura and Schatz, Bertrand and Scheper, Jeroen and Schweiger, Oliver and Serra, Pau Enric and Siopa, Catarina and Smith, Henrik G. and Stanley, Dara and Ştefan, Valentin and Steffan-Dewenter, Ingolf and Stout, Jane C. and Sutter, Louis and Švara, Elena Motivans and Świerszcz, Sebastian and Thompson, Amibeth and Traveset, Anna and Trefflich, Annette and Tropek, Robert and Tscharntke, Teja and Vanbergen, Adam J. and Vilà, Montserrat and Vujić, Ante and White, Cian and Wickens, Jennifer B. and Wickens, Victoria B. and Winsa, Marie and Zoller, Leana and Bartomeus, Ignasi},
+title = {EuPPollNet: A European Database of Plant-Pollinator Networks},
+journal = {Global Ecology and Biogeography},
+volume = {34},
+number = {2},
+pages = {e70000},
+doi = {https://doi.org/10.1111/geb.70000},
+url = {https://onlinelibrary.wiley.com/doi/abs/10.1111/geb.70000},
+year = {2025}
+}
+```
+
 
 ### Indexing
 
