@@ -1,0 +1,244 @@
+{
+  "@context" : [ "http://www.w3.org/ns/csvw", {
+    "@language" : "en"
+  } ],
+  "rdfs:comment" : [ "inspired by https://www.w3.org/TR/2015/REC-tabular-data-model-20151217/" ],
+  "tables" : [ {
+    "@context" : [ "http://www.w3.org/ns/csvw", {
+      "@language" : "en"
+    } ],
+    "rdfs:comment" : [ "inspired by https://www.w3.org/TR/2015/REC-tabular-data-model-20151217/" ],
+    "url" : "Data/3_Final_data/Metadata.csv",
+    "dcterms:bibliographicCitation" : "Lanuza et al. (2025), EuPPollNet: A European Database of Plant-Pollinator Networks. Global Ecol Biogeogr, 34: e70000. https://doi.org/10.1111/geb.70000",
+    "delimiter" : ",",
+    "headerRowCount" : 1,
+    "null" : [ "" ],
+    "tableSchema" : {
+      "primaryKey": "referenceId",
+      "columns" : [ {
+        "name" : "Study_number",
+        "titles" : "Study_number",
+        "datatype" : "string"
+      }, {
+        "name" : "referenceId",
+        "titles" : "Study_id",
+        "datatype" : "string"
+      }, {
+        "name" : "referenceDoi",
+        "titles" : "DOI",
+        "datatype" : "string"
+      }, {
+        "name" : "Year",
+        "titles" : "Year",
+        "datatype" : "string"
+      }, {
+        "name" : "basisOfRecordName",
+        "titles" : "Sampling_method",
+        "datatype" : "string"
+      }, {
+        "name" : "Min_date",
+        "titles" : "Min_date",
+        "datatype" : "string"
+      }, {
+        "name" : "Max_date",
+        "titles" : "Max_date",
+        "datatype" : "string"
+      }, {
+        "name" : "Sampling_days",
+        "titles" : "Sampling_days",
+        "datatype" : "string"
+      }, {
+        "name" : "Sampling_period",
+        "titles" : "Sampling_period",
+        "datatype" : "string"
+      }, {
+        "name" : "Hymenoptera_percent",
+        "titles" : "Hymenoptera_percent",
+        "datatype" : "string"
+      }, {
+        "name" : "Diptera_percent",
+        "titles" : "Diptera_percent",
+        "datatype" : "string"
+      }, {
+        "name" : "Lepidoptera_percent",
+        "titles" : "Lepidoptera_percent",
+        "datatype" : "string"
+      }, {
+        "name" : "Coleoptera_percent",
+        "titles" : "Coleoptera_percent",
+        "datatype" : "string"
+      }, {
+        "name" : "Number_of_main_orders_recorded",
+        "titles" : "Number_of_main_orders_recorded",
+        "datatype" : "string"
+      }, {
+        "name" : "Other_orders",
+        "titles" : "Other_orders",
+        "datatype" : "string"
+      }, {
+        "name" : "Total_interactions",
+        "titles" : "Total_interactions",
+        "datatype" : "string"
+      }, {
+        "name" : "Taxa_recorded",
+        "titles" : "Taxa_recorded",
+        "datatype" : "string"
+      }, {
+        "name" : "Coauthor_Names",
+        "titles" : "Coauthor_Names",
+        "datatype" : "string"
+      }, {
+        "name" : "Orcids",
+        "titles" : "Orcids",
+        "datatype" : "string"
+      }, {
+        "name" : "Emails",
+        "titles" : "Emails",
+        "datatype" : "string"
+      } ]
+    }
+  },
+  {
+    "@context" : [ "http://www.w3.org/ns/csvw", {
+      "@language" : "en"
+    } ],
+    "rdfs:comment" : [ "inspired by https://www.w3.org/TR/2015/REC-tabular-data-model-20151217/" ],
+    "url" : "Data/3_Final_data/Interaction_data.csv.gz",
+    "dcterms:bibliographicCitation" : "Lanuza et al. (2025), EuPPollNet: A European Database of Plant-Pollinator Networks. Global Ecol Biogeogr, 34: e70000. https://doi.org/10.1111/geb.70000",
+    "delimiter" : ",",
+    "headerRowCount" : 1,
+    "null" : [ "" ],
+    "interactionTypeName": "pollinatedBy",
+    "interactionTypeId": "http://purl.obolibrary.org/obo/RO_0002456",
+    "tableSchema" : {
+      "foreignKeys": [{
+        "columnReference": "referenceId",
+        "reference": {
+          "resource": "Data/3_Final_data/Metadata.tsv",
+          "columnReference": "referenceId"
+        }
+      }],
+      "columns" : [ {
+        "name" : "referenceId",
+        "titles" : "Study_id",
+        "datatype" : "string"
+      }, {
+        "name" : "networkId",
+        "titles" : "Network_id",
+        "datatype" : "string"
+      }, {
+        "name" : "Sampling_method",
+        "titles" : "Sampling_method",
+        "datatype" : "string"
+      }, {
+        "name" : "Authors_habitat",
+        "titles" : "Authors_habitat",
+        "datatype" : "string"
+      }, {
+        "name" : "EuPPollNet_habitat",
+        "titles" : "EuPPollNet_habitat",
+        "datatype" : "string"
+      }, {
+        "name" : "Bioregion",
+        "titles" : "Bioregion",
+        "datatype" : "string"
+      }, {
+        "name" : "Country",
+        "titles" : "Country",
+        "datatype" : "string"
+      }, {
+        "name" : "localityName",
+        "titles" : "Locality",
+        "datatype" : "string"
+      }, {
+        "name" : "decimalLatitude",
+        "titles" : "Latitude",
+        "datatype" : "string"
+      }, {
+        "name" : "decimalLongitude",
+        "titles" : "Longitude",
+        "datatype" : "string"
+      }, {
+        "name" : "http://rs.tdwg.org/dwc/terms/eventDate",
+        "titles" : "Date",
+        "datatype" : "string"
+      }, {
+        "name" : "Interaction",
+        "titles" : "Interaction",
+        "datatype" : "string"
+      }, {
+        "name" : "sourceTaxonNameVerbatim",
+        "titles" : "Plant_original_name",
+        "datatype" : "string"
+      }, {
+        "name" : "sourceTaxonName",
+        "titles" : "Plant_accepted_name",
+        "datatype" : "string"
+      }, {
+        "name" : "sourceTaxonRankName",
+        "titles" : "Plant_rank",
+        "datatype" : "string"
+      }, {
+        "name" : "sourceTaxonOrderName",
+        "titles" : "Plant_order",
+        "datatype" : "string"
+      }, {
+        "name" : "sourceTaxonFamilyName",
+        "titles" : "Plant_family",
+        "datatype" : "string"
+      }, {
+        "name" : "sourceTaxonGenusName",
+        "titles" : "Plant_genus",
+        "datatype" : "string"
+      }, {
+        "name" : "Plant_unsure_id",
+        "titles" : "Plant_unsure_id",
+        "datatype" : "string"
+      }, {
+        "name" : "Plant_uncertainty_type",
+        "titles" : "Plant_uncertainty_type",
+        "datatype" : "string"
+      }, {
+        "name" : "targetTaxonNameVerbatim",
+        "titles" : "Pollinator_original_name",
+        "datatype" : "string"
+      }, {
+        "name" : "targetTaxonName",
+        "titles" : "Pollinator_accepted_name",
+        "datatype" : "string"
+      }, {
+        "name" : "targetTaxonRankName",
+        "titles" : "Pollinator_rank",
+        "datatype" : "string"
+      }, {
+        "name" : "targetTaxonOrderName",
+        "titles" : "Pollinator_order",
+        "datatype" : "string"
+      }, {
+        "name" : "targetTaxonFamilyName",
+        "titles" : "Pollinator_family",
+        "datatype" : "string"
+      }, {
+        "name" : "targetTaxonGenusName",
+        "titles" : "Pollinator_genus",
+        "datatype" : "string"
+      }, {
+        "name" : "Pollinator_unsure_id",
+        "titles" : "Pollinator_unsure_id",
+        "datatype" : "string"
+      }, {
+        "name" : "Pollinator_uncertainty_type",
+        "titles" : "Pollinator_uncertainty_type",
+        "datatype" : "string"
+      }, {
+        "name" : "Flower_data",
+        "titles" : "Flower_data",
+        "datatype" : "string"
+      }, {
+        "name" : "Flower_data_merger",
+        "titles" : "Flower_data_merger",
+        "datatype" : "string"
+      } ]
+    }
+  } ]
+}

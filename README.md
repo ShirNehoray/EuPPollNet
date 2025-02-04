@@ -95,6 +95,11 @@ matrices_list = map(long_format_list, sum_interactions)
 
 If you use this database in your research, please make sure to cite this data paper.
 
+### Indexing
+
+[![GloBI Review by Elton](../../actions/workflows/review.yml/badge.svg)](../../actions/workflows/review.yml) [![GloBI](https://api.globalbioticinteractions.org/interaction.svg?accordingTo=globi:JoseBSL/EuPPollNet&refutes=true&refutes=false)](https://globalbioticinteractions.org/?accordingTo=globi:JoseBSL/EuPPollNet)
+
+EuPPollNet is configured to be indexed by Global Biotic Interactions (GloBI, https://globalbioticinteractions.org).
 
 
 
