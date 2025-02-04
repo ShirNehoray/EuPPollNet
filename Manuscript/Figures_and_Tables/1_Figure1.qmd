@@ -7,6 +7,9 @@ format:
         \usepackage{lscape}
         \newcommand{\blandscape}{\begin{landscape}}
         \newcommand{\elandscape}{\end{landscape}}
+        \usepackage{caption}
+        \captionsetup[figure]{labelformat=empty}
+        \captionsetup[table]{labelformat=empty}
 ---
 
 ```{r Load libraries, echo=FALSE, message=FALSE, cache=FALSE, warning=FALSE}
@@ -23,7 +26,7 @@ library(viridis)
 
 
 
-```{r echo=FALSE, message=FALSE, cache=FALSE, warning=FALSE, out.width="105%", fig.cap= "\\textbf{Figure 1}. (\\textbf{a}) Locations of the studies in EuPPollNet across the European continent, showing the total number of pollinator (i.e., orange heptagon) and plant (i.e., green circles) species per study. The sizes of these shapes are proportional to the respective species counts. For visualization purposes, we have selected only a single location per study. (\\textbf{b}) Number of studies by year in EuPPollNet. (\\textbf{c}) Proportion of species and interactions across the four main pollinator orders in EuPPollNet, excluding interactions from \\textit{Apis mellifera}. The total number of species and interactions is indicated in parentheses at the bottom."}
+```{r echo=FALSE, message=FALSE, cache=FALSE, warning=FALSE,dpi=1400, out.width="105%"}
 
 #Load data
 data = readRDS("../../Data/3_Final_data/Interaction_data.rds")
@@ -186,7 +189,8 @@ summarise(Counts = n())
 p2  = ggplot(data2, aes(Year, Counts)) +
 geom_col(fill = "gray35", width = 0.9, color="black", linewidth = 0.25) +
 theme_light() +
-theme(plot.margin=unit(c(0,0,-8,0), "cm"),
+theme(
+  #plot.margin=unit(c(0,0,-8,0), "cm"),
   axis.title.y = element_text(face = "bold", size = 7, vjust = -2),
   axis.title.x = element_text(face = "bold", size = 8, vjust= 4),
   axis.text.y = element_text(size = 6),
@@ -277,12 +281,13 @@ theme(plot.margin=unit(c(-8,0,0,0), "cm"),
 guides(fill=guide_legend(nrow=2,byrow=TRUE))+
 ggtitle("(c)") +
 theme(plot.title = element_text(size = 10,hjust = -0.4, vjust = -6)) +
-scale_x_discrete(labels = c("Species\n (2,172)", "Interactions\n (358,049)")) 
+scale_x_discrete(labels = c("Species\n (2,172)", "Interactions\n (358,049)"))
 
 
 
 #plot2 = p3 / p1 / p2 
 plot2 = p2 /plot_spacer() /p3 + plot_layout(heights = c(4, -1.2, 4))
+
 
 #Plot everything
 map + plot_spacer() + plot2 + plot_layout(widths = c(2.1, -0.485, 0.8)) 

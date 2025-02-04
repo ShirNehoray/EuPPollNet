@@ -9,7 +9,7 @@ header-includes:
 
 
 
-```{r echo=FALSE, message=FALSE, cache=FALSE, warning=FALSE, out.width="95%", fig.cap= "\\textbf{Figure 3}. Phylogenetic and taxonomic coverage of the plant families at European level. The number of interactions recorded per family in the database is illustrated using circles, with their sizes proportional to the number of interactions on a logarithmic scale, complemented by a gradient of colors ranging from yellow to dark purple. Additionally, the coverage of species recorded in EuPPollNet for each family is depicted using two types of bars: orange bars representing the percentage of species included in the database and light grey bars indicating the percentage of species not included in the database out of the total number of bee species per family in Europe. Dark grey bars represent the total number of species per family on a logarithmic scale at European level.", fig.width=8, fig.height=8}
+```{r echo=FALSE, message=FALSE, cache=FALSE, warning=FALSE,dpi=1400, out.width="95%", fig.width=8, fig.height=8}
 
 library(ggplot2)
 library(ggtree)

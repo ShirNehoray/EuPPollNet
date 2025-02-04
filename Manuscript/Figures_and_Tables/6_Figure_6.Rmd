@@ -8,105 +8,35 @@ header-includes:
 ---
 
 
-```{r echo=FALSE, message=FALSE, cache=FALSE, warning=FALSE, out.width="95%", fig.cap= "\\textbf{Figure 6}. ", fig.width=10, fig.height=7, fig.align='center'}
+```{r echo=FALSE, message=FALSE, cache=FALSE, warning=FALSE, out.width="95%",dpi=1400, fig.cap= "\\textbf{Figure 6}. ", fig.width=10, fig.height=7, fig.align='center'}
 
 # Load libraries
 library(dplyr)
 library(ggplot2)
 library(stringr)
 library(patchwork)
-library(psych)
-# Load data
-data = readRDS("../../Data/3_Final_data/Interaction_data.rds")
-metrics_by_network = readRDS("../../Data/Working_files/metrics_by_network.rds")
-null_networks = readRDS("../../Data/Working_files/null_networks.rds")
-null_metrics_networks = readRDS("../../Data/Working_files/null_metrics_networks.rds")
 
-# Prepare data
-data = data %>%
-dplyr::mutate(Year = lubridate::year(Date), 
-              Month = lubridate::month(Date), 
-              Day = lubridate::day(Date))
+# Load plots generated in scripts 7_2_Nestedness and 7_2_Connectance
 
-# Subset data for studies with only bumblebees
-v = c("13_Karise", "22_Kallnik")
-subsetting = unique(data$Study_id)
+connectance_species = readRDS("../..Data/Manuscript_info/Figure6_connectance_species.rds")
+connectance_latitude = readRDS("../..Data/Manuscript_info/Figure6_connectance_latitude.rds")
+nestedness_z_scores = readRDS("../..Data/Manuscript_info/nestedness_z_scores.rds")
+nestedness_latitude = readRDS("../..Data/Manuscript_info/nestedness_latitude.rds")
 
-long_format = data %>% 
-mutate(Network_id = paste0(Study_id, "_", Network_id, "_", Year)) %>% 
-mutate(Network_id = str_replace_all(Network_id, " ","_")) %>% 
-filter(!Study_id %in% v) %>% 
-select(Network_id, Plant_accepted_name, Pollinator_accepted_name)
-
-# Filter networks larger than 4 plants and 4 pollinator species
-v2 = long_format %>% 
-group_by(Network_id) %>% 
-summarise(Poll_spp = n_distinct(Plant_accepted_name),
-          Plant_spp = n_distinct(Pollinator_accepted_name)) %>% 
-ungroup() %>% 
-filter(Poll_spp >= 4 & Plant_spp >= 4) %>% 
-pull(Network_id)
-
-long_format = long_format %>% 
-filter(Network_id %in% v2)
-
-# Filter networks with more links than species
-links = long_format %>% 
-group_by(Network_id, Plant_accepted_name, Pollinator_accepted_name) %>%
-distinct() %>% 
-group_by(Network_id) %>% 
-summarise(links = length(Network_id))
-
-spp = long_format %>% 
-group_by(Network_id) %>% 
-summarise(n_plants = n_distinct(Plant_accepted_name),
-          n_polls = n_distinct(Pollinator_accepted_name)) %>% 
-mutate(n_total = n_plants + n_polls)
-
-vector_to_include = left_join(links, spp)
-
-v3 = vector_to_include %>% 
-filter(links > n_total) %>% 
-pull(Network_id)
-
-long_format = long_format %>% 
-filter(Network_id %in% v3)
-
-# Explore how NODFc changes across the Y-X AXES (latitude-Longitude)
-long_format_coords = data %>% 
-mutate(Network_id = paste0(Study_id, "_", Network_id, "_", Year)) %>% 
-mutate(Network_id = str_replace_all(Network_id, " ","_")) %>% 
-select(Network_id, Latitude, Longitude, Bioregion) %>% 
-distinct()
-
-# Merge data
-metrics_by_network_coords = left_join(metrics_by_network, long_format_coords)
-
-# Connectance plots
-# 1st Latitude
-p1 = metrics_by_network_coords %>% 
-ggplot(aes(Latitude, Connectance)) +
-geom_point(aes(fill = Bioregion, shape = Bioregion), stroke = 0.15, size=2.5, alpha=1) +
+#Prepare first connectance plots
+library(betareg)
+model = betareg(Connectance ~ log_geometric_mean_spp, data = connectance_species)
+p1 = ggplot(connectance_species, aes(x = log_geometric_mean_spp, y = Connectance))+
+geom_point(pch = 21, fill = "azure3", size=2.5) +
+geom_line(aes(y = predict(model, connectance_species)), colour= "black")+
+xlab("log(Species)") +
 theme_bw() +
-ylab("Connectance") +
-scale_fill_viridis_d() +
-scale_colour_viridis_d() +
-scale_shape_manual(values = c(
-  "Alpine" = 21,  # Circle
-  "Atlantic" = 22, # Triangle
-  "Boreal" = 23,   # Square
-  "Continental" = 24,  # Diamond
-  "Mediterranean" = 25  # Cross
-))+
 ggtitle("(a)")
 
 
-# 2nd Plot
-p2 = metrics_by_network_coords %>% 
-ggplot(aes(Latitude, Normalised_nestedness)) +
-geom_point(aes(fill = Bioregion, shape = Bioregion), stroke = 0.15, size=2.5, alpha=1) +
-theme_bw() +
-ylab("NODFc") +
+p3 = connectance_latitude %>% 
+ggplot(aes(Latitude, residual_conectance)) +
+geom_point(aes(fill = Bioregion, shape = Bioregion), stroke = 0.25, size=2.5) +
 scale_fill_viridis_d() +
 scale_colour_viridis_d() +
 scale_shape_manual(values = c(
@@ -116,12 +46,27 @@ scale_shape_manual(values = c(
   "Continental" = 24,  # Diamond
   "Mediterranean" = 25  # Cross
   )) +
-ggtitle("(b)")
+geom_line(data = connectance_latitude,aes(x=Latitude, y = fit), inherit.aes = FALSE)+
+geom_ribbon(data = connectance_latitude, 
+    aes(x=Latitude,ymin = lwr, ymax = upr), inherit.aes = FALSE,
+    fill = "grey70", alpha= 0.3) +
+theme_bw()+
+ylab("Residual connectance") +
+ggtitle("(c)")
 
+
+
+null_metrics_networks = readRDS("../..Data/Working_files/null_metrics_networks_quasiswap.rds")
+metrics_by_network = readRDS("../..Data/Working_files/metrics_by_network.rds")
+
+#Finally, find % of networks that differ statistically
 # Merge and process data
-d = left_join(metrics_by_network, null_metrics_networks)
+d = left_join(metrics_by_network, null_metrics_networks, by = "Network_id")
+
 d = d %>% 
 mutate(z_score = (Classic_nestedness - Mean_null_classic_nestedness) / Deviation_null_classic_nestedness)
+d = d %>% filter(!is.na((z_score))) 
+
 
 p = 0.05 #cutoff probability 95% confidence
 critical_value = qnorm(p/2) #double tail probability divide by 2
@@ -133,57 +78,73 @@ between(z_score, -abs(critical_value), abs(critical_value)) ~ "No statistical di
     z_score > abs(critical_value) ~ "Over-represented"
   ))
 
-# 2nd Species (geometric mean)
-species_number = long_format %>% 
-group_by(Network_id) %>% 
-summarise(N_plants = n_distinct(Plant_accepted_name),
-          N_pollinators = n_distinct(Pollinator_accepted_name)) %>% 
-group_by(Network_id) %>% 
-summarise(geometric_mean_spp = geometric.mean(c(N_plants, N_pollinators)))
+#Calculate percentages
+z_percent = d1 %>% 
+group_by(infra_over_represented) %>% 
+summarise(percent = length(infra_over_represented)/nrow(.) * 100)
 
-metrics_by_network_spp_number = left_join(metrics_by_network, species_number)
-
-p3 = metrics_by_network_spp_number %>% 
-ggplot(aes(geometric_mean_spp, Connectance)) +
-geom_point(pch = 21, fill = "azure3", size=2.5, stroke=0.25, alpha=1) +
-theme_bw() +
-xlab("Species")+
-ggtitle("(c)")
+no_dif_z = z_percent %>% 
+filter(infra_over_represented == "No statistical difference")
 
 
-# Plot
-p4 = d1 %>% 
-ggplot(aes(x = z_score)) +
-geom_histogram(aes(y = ..density.., fill = infra_over_represented), 
-               bins = 100, alpha = 0.5, color = "black", position = "stack", size=0.1) +
-stat_function(data = d1, fun = function(x) dnorm(x, mean = mean(d1$z_score), sd = sd(d1$z_score)) * 1.7, 
-                n = 1000, inherit.aes = FALSE, color = "gray18", size = 1) +
-theme_bw() +
-coord_cartesian(expand = FALSE) +
-geom_vline(xintercept = -abs(critical_value), linetype = "longdash", colour = "red")+
-geom_vline(xintercept = abs(critical_value), linetype = "longdash", colour = "red") +
-ylab("Density") +
-xlab("Z scores (NODF)")  +
-xlim(-6, 9) +
-ylim(0, 0.8) +
-scale_fill_manual(name = "Observed NODF against null",
+p2 = d1 %>% 
+  ggplot(aes(x = z_score)) +
+  geom_histogram(aes(y = ..count.., fill = infra_over_represented), 
+                 bins = 60, alpha = 0.5, color = "black", position = "stack") +
+  theme_bw() +
+  coord_cartesian(expand = FALSE) +
+  geom_vline(xintercept = -abs(critical_value), linetype = "longdash", colour = "red") +
+  geom_vline(xintercept = abs(critical_value), linetype = "longdash", colour = "red") +
+  ylab("Number of networks") +
+  xlab("Z scores (NODF)")  +
+ # xlim(-6, 9) +
+ # ylim(0, 0.8) +
+  scale_fill_manual(name = "Observed against null",
                     limits = c("Under-represented", "No statistical difference", "Over-represented"),
                     labels = c("Less nested", "No difference", "More nested"),
                     values = c("Under-represented" = "coral2", 
                                "No statistical difference" = "palegreen3", 
                                "Over-represented" = "cyan3")) +
+ggtitle("(b)")+
+xlim(-6,6)
+
+
+
+# 2nd Plot
+p4 = nestedness_latitude %>% 
+ggplot(aes(Latitude, Normalised_nestedness)) +
+geom_point(aes(fill = Bioregion, shape = Bioregion), stroke = 0.25, size=2.5) +
+theme_bw() +
+ylab("NODFc") +
+scale_fill_viridis_d() +
+scale_colour_viridis_d() +
+scale_shape_manual(values = c(
+  "Alpine" = 21,  # Circle
+  "Atlantic" = 22, # Triangle
+  "Boreal" = 23,   # Square
+  "Continental" = 24,  # Diamond
+  "Mediterranean" = 25  # Cross
+  )) +
+geom_line(data = nestedness_latitude,aes(x=Latitude, y = fit), inherit.aes = FALSE, linetype = "dashed")+
+geom_ribbon(data = nestedness_latitude, 
+    aes(x=Latitude,ymin = lwr, ymax = upr), inherit.aes = FALSE,
+    fill = "grey70", alpha= 0.3) +
+theme_bw()+
 ggtitle("(d)")
 
 
 # Layout plots
-a = p1 + p2 + plot_layout(guides = 'collect') & theme(legend.position = "right",
-                                                      legend.justification = "left")
-b = (p3 + p4)  & theme(legend.justification = "left")
+#a = (p1 + p2) 
+#b = p3 + p4 + plot_layout(guides = 'collect') & theme(legend.position = "right")
+#a / b
+
+# Layout plots
+a = (p1 + p2)  & theme(legend.position = "right", legend.justification = "left")
+b = p3 + p4 + plot_layout(guides = 'collect') & theme(legend.justification = "left")
 a / b  & theme(axis.title =  element_text(size=16, face="bold"),
                plot.title = element_text(size=22),
                panel.border = element_rect(colour = "black",
                fill=NA, size=1),
                axis.text=element_text(size=12))
-
 
 ```

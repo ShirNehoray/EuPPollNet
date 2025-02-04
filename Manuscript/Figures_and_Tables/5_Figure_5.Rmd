@@ -25,48 +25,51 @@ library(viridis)
 ```
 
 
-```{r echo=FALSE, message=FALSE, cache=FALSE, warning=FALSE, out.width="95%", fig.cap= "\\textbf{Figure 5}. Proportion of the major pollinator orders by habitat types and bioclimatic regions in the SafeNet database. The orders, from left to right, include Hymenoptera, Diptera, Lepidoptera and Coleoptera. The horizontal barplot on the right indicates the number of studies that were conducted on each habitat type or bioclimatic region. Note that a single study can countribute to more than one habitat or bioclimatic region. Areas with a greater number of studies are more likely to depict accurate proportions of pollinators in those systems.", fig.width=4.5, fig.height=8, fig.align='center'}
+```{r echo=FALSE, message=FALSE, cache=FALSE, warning=FALSE, out.width="95%", fig.width=4.5, fig.height=8, fig.align='center'}
 
-#Read interaction data 
-data = readRDS("../../Data/3_Final_data/Interactions_uncounted.rds")
 
-data = data %>%
-dplyr::mutate(Year = lubridate::year(Date), 
-                Month = lubridate::month(Date), 
-                Day = lubridate::day(Date))
 
-#Load data (done it in earlier chunks)
-#Select cols of interest
-data1 = data %>% 
-select(Study_id, Network_id, Authors_habitat,
-  SafeNet_habitat, Bioregion,
-  Latitude, Longitude, Day, Month, Year, Plant_rank,
-  Plant_status, Plant_matchtype, Plant_accepted_name,Plant_order,
-  Pollinator_rank, Pollinator_status, Pollinator_matchtype,
-  Pollinator_accepted_name, Pollinator_order, Interaction)
+#Read data
+data = readRDS("../../Data/Working_files/Interactions_uncounted.rds")%>% 
+mutate(Network_id = paste0(Study_id, Network_id))  
+
+
+library(ggforce)
+
+#Filter out 2 bioregions that only have a small study with data of a single day
+data = data %>% 
+filter(!Bioregion == "Steppic") %>% 
+filter(!Bioregion == "Pannonian") 
 
 #Prepare orders for filtering
 main_orders = c("Hymenoptera", "Lepidoptera", "Coleoptera", "Diptera")
 
+#Karise is a very large study that only sampled bumblebees and
+#is providing unrealistic results for the Boreal region
+#Filter out
+#Maybe add to caption?
+data1 = data %>% 
+filter(!Study_id == "13_Karise")
+
 #Check number of studies by habitat
-habitat = data %>% 
-select(Study_id, SafeNet_habitat) %>% 
+habitat = data1 %>% 
+select(Study_id, EuPPollNet_habitat) %>% 
 distinct() %>%  
-group_by(SafeNet_habitat) %>% 
+group_by(EuPPollNet_habitat) %>% 
 summarise(Habitat_count = n()) 
 #Check number of studies by bioregion
-bioregion = data %>% 
+bioregion = data1 %>% 
 select(Study_id, Bioregion) %>% 
 distinct() %>%  
 group_by(Bioregion) %>% 
 summarise(Bioregion_count = n()) 
 #Check pols by habitat
 pollinator_percent = data1 %>%
-group_by(SafeNet_habitat, Pollinator_order) %>%
+group_by(EuPPollNet_habitat, Pollinator_order) %>%
 filter(Pollinator_accepted_name!= "Apis mellifera") %>% 
 filter(Pollinator_order %in% main_orders) %>% 
 summarise(count = n()) %>%
-group_by(SafeNet_habitat) %>%
+group_by(EuPPollNet_habitat) %>%
 mutate(Proportion = count/sum(count)) %>%
 select(-count) 
 #Check pols by bioregion
@@ -81,7 +84,7 @@ select(-count)
 #Preparing datasets for horizontal plot
 a1 = habitat %>% 
 mutate(Group = "Habitat") %>% 
-rename(Habitat = SafeNet_habitat) %>% 
+rename(Habitat = EuPPollNet_habitat) %>% 
 rename(Count = Habitat_count)
 
 b1 = bioregion %>% 
@@ -99,7 +102,7 @@ rename(Habitat = Bioregion)
 
 b2 = pollinator_percent %>% 
 mutate(Group = "Habitat") %>% 
-rename(Habitat = SafeNet_habitat)
+rename(Habitat = EuPPollNet_habitat)
 #Bind rows
 c2 = bind_rows(a2, b2) 
 
@@ -125,22 +128,24 @@ theme(legend.position = "bottom",
       legend.key.size = unit(2, "mm"),
       legend.spacing.y = unit(0.1, "cm"),
        legend.box.spacing = unit(0, "pt"),
-      axis.title = element_text(face = "bold", size = 8),
+      axis.title = element_text(face = "bold", size = 7),
       axis.text = element_text(size=6),
       panel.border = element_rect(size=1)) +
 xlab(NULL) +
+ylab("Proportion of species") +
 scale_y_continuous(breaks = c(0.25, 0.5,0.75), labels = c("0.25", "0.5","0.75"))+
-theme(strip.text.x = element_text(size = 12, face = "bold"),
+theme(strip.text.x = element_text(size = 10, face = "bold"),
     strip.background = element_rect(
 color=NA, fill=NA, size=0.5, linetype="solid")) +
 scale_fill_manual(values = viridis(4),
                   name = NULL) +
 coord_flip(expand = FALSE) +
-ggforce::facet_col(~ factor(Group, levels=c("Habitat","Bioregion")), space = "free", scales = "free_y") +
+facet_wrap(~ factor(Group, levels=c("Habitat","Bioregion")), space = "free_y", scales = "free") +
 guides(fill=guide_legend(nrow=2,byrow=TRUE)) 
 
 #Unify labels
 c1$Habitat = factor(c1$Habitat, levels = l2)
+
 #Create barplot on the side
 p2 =ggplot(c1, aes(Habitat, Count)) +
 geom_col(fill = "gray25",width = 0.9, color="black", linewidth = 0.4) +
@@ -152,7 +157,7 @@ theme(plot.margin=unit(c(0,0,0,0), "mm"),
       strip.text.x = element_text(size=12),
       strip.background = element_rect(
 color=NA, fill=NA, size=0.5, linetype="solid"),
-  axis.title = element_text(face = "bold", size = 8),
+  axis.title = element_text(face = "bold", size = 7),
 axis.text = element_text(size=6)) +
 theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(),
 panel.background = element_blank(),
@@ -164,11 +169,11 @@ xlab(NULL) +
 ylab("Number of studies")+
 theme(legend.position = "none")+
 coord_flip(expand = F) +
-ggforce::facet_col(~ factor(Group, levels=c("Habitat","Bioregion")), space = "free", scales = "free_y")
+facet_wrap(~ factor(Group, levels=c("Habitat","Bioregion")), space = "free_y", scales = "free")
 
 
 #Plot panel
 p1 + p2 + plot_layout(widths = c(4,2, 2.5),heights= c(10,10,4), ncol=2) 
 
-```
 
+```

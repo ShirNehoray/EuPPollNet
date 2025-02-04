@@ -116,7 +116,7 @@ filter(!Pollinator_order == "Trombidiformes")
 #Save data
 #----------------------
 #Save data
-saveRDS(data1, "Data/3_Final_data/Interactions.rds")
+#saveRDS(data1, "Data/3_Final_data/Interactions.rds")
 
 #Important! Make all rows one single interaction
 #1st uncount interactions
@@ -151,6 +151,8 @@ select(Study_id, Network_id, Sampling_method, Authors_habitat,
        Pollinator_rank, Pollinator_order, Pollinator_family, 
        Pollinator_genus, Pollinator_unsure_id, Pollinator_uncertainty_type, Flower_data, Flower_data_merger)
 saveRDS(data3, "Data/3_Final_data/Interaction_data.rds")
-
+#Save csv
+write_csv(data3, "Data/3_Final_data/Interaction_data.csv")
+write_csv(data3, "Data/3_Final_data/Interaction_data.csv.gz")
 
 

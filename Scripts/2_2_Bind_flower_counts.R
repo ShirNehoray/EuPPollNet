@@ -53,3 +53,4 @@ all = bind_rows(data,  .id = 'Study_id')
 
 #Save floral counts (as final file for now)
 saveRDS(all, "Data/3_Final_data/Flower_counts.rds")
+write_csv(all, "Data/3_Final_data/Flower_counts.csv")

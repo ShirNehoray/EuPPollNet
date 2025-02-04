@@ -174,6 +174,8 @@ mutate(Taxa_recorded = case_when(
   Study_id == "4_Marini" ~ "Bees, syrphids, conopids, tachinid flies and butterflies",
   Study_id == "5_Marini" ~ "Bees, syrphids, conopids, tachinid flies and butterflies",
   Study_id == "17_Fisogni" ~ "Hymenoptera, syrphids, bombylids and Coleoptera",
+  Study_id == "53_Libran-embid" ~ "Hymenoptera and Lpidoptera",
+  Study_id == "54_Lazaro" ~ "Hymenoptera, Diptera, Lepidoptera and Coleoptera",
   TRUE ~ Taxa_recorded))
 
 #Read metadata from authors and incorporate Authors, mails and orcids
@@ -196,10 +198,22 @@ Emails = paste(E_mail, collapse = ", ")
 
 #Add authors to metadata
 metadata = left_join(metadata, authors)
+colnames(metadata)
+str(metadata)
+#Fix study number
+metadata = metadata %>%
+ungroup() %>% 
+  mutate(Study_number = case_when(
+    Study_number == 23 ~ 23,
+    Study_number == 24 ~ 23,
+    Study_number == 25 ~ 23,
+    Study_number > 25 ~ Study_number - 2,
+    TRUE ~ Study_number
+  ))
 
 #Save metadata
 saveRDS(metadata, "Data/3_Final_data/Metadata.rds")
-
+write_csv(metadata, "Data/3_Final_data/Metadata.csv")
 
 #Load data to google sheets
 #(ss <- gs4_create("Study_level", sheets = metadata))

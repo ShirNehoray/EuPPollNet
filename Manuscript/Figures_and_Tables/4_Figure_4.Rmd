@@ -7,7 +7,7 @@ header-includes:
 - \captionsetup[table]{labelformat=empty}
 ---
 
-```{r echo=FALSE, message=FALSE, cache=FALSE, warning=FALSE, out.width="95%", fig.cap= "\\textbf{Figure 4}. Graphs (a-b-c) indicate the accumulation curves for pollinators, plants, and the number of unique pairwise interactions across networks. Grey solid lines represent 100 randomised accumulation curves, the black solid lines represent the interpolated curve (i.e., the mean across curves), and the red dashed lines illustrate the extrapolated curve for approximately 3000 networks. The solid black points indicate the number of species and interactions contained in the database. Graph (d) shows the accumulation curve of pollinator species across an increasing number of plant species. This last graph uses the same color and shape structure as the ones in the top panel. Graphs (e-f) indicate the percentage of occurrence (i.e., incidence) of plant and pollinator species across networks. Species on the left (i.e., common) are found in many networks, while species on the right (i.e., rare) are found in few or only a single network. Note that \\textit{Apis mellifera} is the most common pollinator but was excluded from this visualization.", fig.width=10, fig.height=6, out.width="115%"}
+```{r echo=FALSE, message=FALSE, cache=FALSE, warning=FALSE, dpi=1400, out.width="95%", fig.width=10, fig.height=6, out.width="115%"}
 
 library(tibble)
 library(dplyr)
@@ -313,8 +313,6 @@ p1 + p2 + p3 + pp1 + o1 + o2 + plot_layout(guides = "collect", nrow = 2, ncol=3)
       axis.title = element_text(size=12, face = "bold"),
       axis.text = element_text(size=10),
       plot.title = element_text(size=18))
-
-#a/b
 
 
 ```

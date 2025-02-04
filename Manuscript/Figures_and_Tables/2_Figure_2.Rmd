@@ -32,12 +32,13 @@ library(kableExtra)
 ```
 
 
-```{r echo=FALSE, message=FALSE, cache=FALSE, warning=FALSE, out.width="95%", fig.width=10, fig.height=10, fig.cap= "\\textbf{Figure 2}. Phylogenetic and taxonomic coverage of bee genera at European level. The number of interactions recorded per genus in the database is illustrated using circles, with their sizes proportional to the number of interactions on a logarithmic scale, complemented by a gradient of colors ranging from yellow to dark purple. Additionally, the coverage of species recorded in EuPPollNet for each genus is depicted using two types of bars: orange bars representing the percentage of species included in the database and light grey bars indicating the percentage of species not included in the database, out of the total number of bee species in Europe. Dark grey bars represent the total number of species per genus on a logarithmic scale at European level."}
+```{r echo=FALSE, message=FALSE, cache=FALSE, warning=FALSE,dpi= 1400, out.width="95%", fig.width=10, fig.height=10}
 
 #Read data
 tree_family_interactions= readRDS("../../Data/Manuscript_info/bee_phylo.RData")
 d1 = readRDS("../../Data/Manuscript_info/bee_data.RData")
 n = readRDS("../../Data/Manuscript_info/node_data.RData")
+
 
 tree_family_interactions@data$Spp_number_Europe = log(tree_family_interactions@data$Spp_number_Europe + 1)
 #Circular layour
@@ -117,7 +118,7 @@ coord_cartesian(clip = "off")+
     plot.margin = margin(4, 0, 10, 0),                     # Adjust plot margins as needed
     legend.position = c(0.6, -0.005),                           # Position the legend
     legend.direction = "horizontal",                        # Legend items in a single row
-    legend.key.size = unit(0.2, 'cm'),                    # Smaller key size for compactness
+    legend.key.size = unit(0.8, 'cm'),                    # Smaller key size for compactness
     legend.spacing.x = unit(0.05, "cm"),                   # Minimal horizontal spacing
     legend.text = element_text(size = 12),                 # Legend text size
     legend.title = element_text(size = 16)                 # Legend title size
