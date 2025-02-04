@@ -18,6 +18,8 @@
 ### Article
 
 - **EuPPollNet: A European database of plant-pollinator networks**
+- **Jounal: Global Ecology and Biogeography**
+- **DOI:** http://dx.doi.org/10.1111/geb.70000
 
 ### Abstract
 
