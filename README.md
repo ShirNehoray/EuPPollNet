@@ -19,11 +19,10 @@
 
 ### Article
 
-- **Title: "EuPPollNet: A European database of plant-pollinator networks"**
-- **Jounal: Global Ecology and Biogeography**
-- **DOI:** http://dx.doi.org/10.1111/geb.70000
-
-### Abstract
+#### **Title: "EuPPollNet: A European database of plant-pollinator networks"**
+#### **Jounal: Global Ecology and Biogeography**
+#### **DOI:** http://dx.doi.org/10.1111/geb.70000
+#### **Abstract**:
 
 - **Motivation**: Pollinators play a crucial role in maintaining Earth’s terrestrial biodiversity and human food production by mediating sexual reproduction for most flowering plants. Indeed, the network of interactions formed by plants and pollinators constitutes the backbone of plant-pollinator community stability and functioning. However, rapid human-induced environmental changes are compromising the long-term persistence of plant-pollinator interaction networks. One of the major challenges for pollinator conservation is the lack of robust generalisable data capturing how plant-pollinator communities are structured across space and time. Here, we present the EuPPollNet (European Plant-Pollinator Networks) database, a fully open and reproducible European-level database containing harmonized taxonomic data on plant-pollinator interactions referenced in both space and time, along with other ecological variables of interest. This database offers an open workflow that allows researchers to track data-curation decisions and edit them according to their preferences. We present the taxonomic and sampling coverage of EuPPollNet, and summarize key structural properties in plant-pollinator networks. We hope EuPPollNet will stimulate future research that fills the taxonomic, ecological, and geographical data gaps on plant-pollinator interactions that we have identified. Further, the variation in the structure of the networks in EuPPollNet provides a strong basis for future studies aimed at quantifying drivers of plant-pollinator network change and guiding future conservation planning for plants and pollinators.
 
