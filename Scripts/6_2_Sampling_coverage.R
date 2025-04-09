@@ -4,7 +4,7 @@ library(dplyr)
 library(iNEXT)
 
 #Load data
-data = readRDS("Data/3_Final_data/Interactions.rds") %>% 
+data = readRDS("Data/3_Final_data/Interaction_data.rds") %>% 
 mutate(Network_id = paste0(Study_id, Network_id))  
 
 #Pollinators

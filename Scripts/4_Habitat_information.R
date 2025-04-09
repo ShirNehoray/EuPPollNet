@@ -3,7 +3,7 @@
 
 library(dplyr)
 #Load data 
-data = readRDS("Data/Working_files/Interactions_uncounted.rds")
+data = readRDS("Data/3_Final_data/Interaction_data.rds")
 
 #Make sure that each site has only a single coordinate
 #I have fixed some coords on the processing scripts

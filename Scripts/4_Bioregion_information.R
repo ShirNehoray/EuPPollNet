@@ -7,7 +7,7 @@ library(sf)
 library(dplyr)
 
 #Load data 
-data = readRDS("Data/Working_files/Interactions_uncounted.rds")
+data = readRDS("Data/3_Final_data/Interaction_data.rds")
 
 ##Read shapefile:
 bioregions <- sf::read_sf('Data/Working_files/Bio_Regions/BiogeoRegions2016.shp')
@@ -55,4 +55,6 @@ rename(Bioregions = code)
 #Save Bioregions
 saveRDS(coords_result, "Data/Working_files/Bioregion.rds")
 
+coords_result %>% 
+filter(is.na(Bioregions))
 

@@ -124,14 +124,14 @@ nestedness_temp = function(interaction_matrix) {
 s = nestedtemp(interaction_matrix)
 # Return the statistic
 return(s$statistic/100)
-
+}
 classic_nestedness = function(interaction_matrix){
 # Calculate nestedness using the nestedtemp function
 s = nestednodf(interaction_matrix)
 # Return the statistic
 return(s$statistic[3]/100)
 }
-}
+
 #Compute network metrics-----
 #Normalised nestedness (NODFc)and classic netedness (from Almeida-Neto )
 #Note: Classic_nestedness (nodf_cpp) same as nestednof from vegan package

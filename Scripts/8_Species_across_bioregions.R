@@ -6,7 +6,7 @@ library(dplyr)
 library(ggplot2)
 
 #Load data 
-data = readRDS("Data/3_Final_data/Interactions_uncounted.rds")
+data = readRDS("Data/3_Final_data/Interaction_data.rds")
 data = data %>%
 dplyr::mutate(Year = lubridate::year(Date), 
                 Month = lubridate::month(Date), 

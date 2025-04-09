@@ -5,7 +5,7 @@
 
 library(dplyr)
 library(tidyr)
-
+library(readr)
 #----------------------
 #Read taxonomic and habitat data
 #----------------------
@@ -47,10 +47,14 @@ colnames(poll_taxo1) = paste0("Pollinator_", tolower(colnames(poll_taxo)))
 colnames(poll_taxo1)
 
 #Merge all for now
-plant_taxo1
-data = left_join(master1, plant_taxo1)
+plant_taxo1 = plant_taxo1 %>% 
+distinct()
+
+poll_taxo1 = poll_taxo1 %>% 
+distinct()
 #Bind data
-data1 = left_join(data, poll_taxo1, relationship = "many-to-many")
+data = left_join(master1, plant_taxo1)
+data1 = left_join(data, poll_taxo1)
 #Exclude records of plants or pollinators that
 #are considered as unknown
 data1 = data1 %>% 
@@ -150,6 +154,7 @@ select(Study_id, Network_id, Sampling_method, Authors_habitat,
        Plant_unsure_id, Plant_uncertainty_type, Pollinator_original_name, Pollinator_accepted_name, 
        Pollinator_rank, Pollinator_order, Pollinator_family, 
        Pollinator_genus, Pollinator_unsure_id, Pollinator_uncertainty_type, Flower_data, Flower_data_merger)
+
 saveRDS(data3, "Data/3_Final_data/Interaction_data.rds")
 #Save csv
 write_csv(data3, "Data/3_Final_data/Interaction_data.csv")
