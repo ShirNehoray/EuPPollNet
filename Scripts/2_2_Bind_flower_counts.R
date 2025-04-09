@@ -6,6 +6,7 @@ library(dplyr)
 library(stringr)
 library(gtools)
 library(purrr)
+library(readr)
 
 #--------------------------#
 #Read all files-----

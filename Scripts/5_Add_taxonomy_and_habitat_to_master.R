@@ -157,7 +157,7 @@ select(Study_id, Network_id, Sampling_method, Authors_habitat,
 
 saveRDS(data3, "Data/3_Final_data/Interaction_data.rds")
 #Save csv
-write_csv(data3, "Data/3_Final_data/Interaction_data.csv")
+#write_csv(data3, "Data/3_Final_data/Interaction_data.csv")
 write_csv(data3, "Data/3_Final_data/Interaction_data.csv.gz")
 
 

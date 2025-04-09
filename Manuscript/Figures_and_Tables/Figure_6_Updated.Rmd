@@ -8,7 +8,7 @@ header-includes:
 ---
 
 
-```{r echo=FALSE, message=FALSE, cache=FALSE, warning=FALSE, out.width="95%",dpi=1400, fig.cap= "\\textbf{Figure 6}. ", fig.width=10, fig.height=7, fig.align='center'}
+```{r echo=FALSE, message=FALSE, cache=FALSE, warning=FALSE, out.width="95%",dpi=1400, fig.cap= "\\textbf{Figure 6}. Graph (a) shows the association between network connectance and the geometric mean of plant and pollinator species per network on a log-scale with the respective fitted line from a Beta regression. Graph (b) shows the distribution of z-scores when comparing the nestedness from the empirical networks with their randomised counterparts (100 null models for each network with the curveball algorithm). The vertical red dashed lines represent the z critical value for a two tailed test with alpha = 0.05. Z-scores to the left of the first vertical red dashed line indicate that networks are less nested than expected by chance (red), those between the two dashed lines indicate no statistical difference from random expectations (green), and those to the right indicate that networks are more nested than expected by chance (blue). Graphs (c-d) show the fitted regression of residual connectance and nestedness across the latitudinal range of the studies from the database. The solid fitted line indicates a significant association, while the dashed lines indicate a non-significant association. The biogeographic region of each network is indicated with points of different shapes and colours.", fig.width=10, fig.height=7, fig.align='center'}
 
 # Load libraries
 library(dplyr)
@@ -56,39 +56,58 @@ ggtitle("(c)")
 
 
 
-#Prepare now nestedness plots
-# Plot
+null_metrics_networks = readRDS("../../Data/Working_files/null_metrics_networks_quasiswap.rds")
+metrics_by_network = readRDS("../../Data/Working_files/metrics_by_network.rds")
+
+#Finally, find % of networks that differ statistically
+# Merge and process data
+d = left_join(metrics_by_network, null_metrics_networks, by = "Network_id")
+
+d = d %>% 
+mutate(z_score = (Classic_nestedness - Mean_null_classic_nestedness) / Deviation_null_classic_nestedness)
+d = d %>% filter(!is.na((z_score))) 
+
+
 p = 0.05 #cutoff probability 95% confidence
 critical_value = qnorm(p/2) #double tail probability divide by 2
 
-nestedness_z_scores = nestedness_z_scores %>%
+d1 = d %>%
 mutate(infra_over_represented = case_when(
 z_score < -abs(critical_value) ~ "Under-represented",
 between(z_score, -abs(critical_value), abs(critical_value)) ~ "No statistical difference",
     z_score > abs(critical_value) ~ "Over-represented"
   ))
 
-p2 = nestedness_z_scores %>% 
-ggplot(aes(x = z_score)) +
-geom_histogram(aes(y = ..density.., fill = infra_over_represented), 
-               bins = 100, alpha = 0.5, color = "black", position = "stack") +
-stat_function(data = nestedness_z_scores, fun = function(x) dnorm(x, mean = mean(nestedness_z_scores$z_score), sd = sd(nestedness_z_scores$z_score)) * 1.7, 
-              n = 1000, inherit.aes = FALSE, color = "gray18", size = 1) +
-theme_bw() +
-coord_cartesian(expand = FALSE) +
-geom_vline(xintercept = -abs(critical_value), linetype = "longdash", colour = "red") +
-geom_vline(xintercept = abs(critical_value), linetype = "longdash", colour = "red") +
-ylab("Density") +
-xlab("Z scores (NODF)")  +
-xlim(-6, 9) +
-ylim(0, 0.8) +
-scale_fill_manual(name = "Observed against null",
-                  limits = c("Under-represented", "No statistical difference", "Over-represented"),
-                  labels = c("Less nested", "No difference", "More nested"),
-                  values = c("Under-represented" = "coral2", 
-                             "No statistical difference" = "palegreen3", 
-                             "Over-represented" = "cyan3")) +
-ggtitle("(b)")
+#Calculate percentages
+z_percent = d1 %>% 
+group_by(infra_over_represented) %>% 
+summarise(percent = length(infra_over_represented)/nrow(.) * 100)
+
+no_dif_z = z_percent %>% 
+filter(infra_over_represented == "No statistical difference")
+
+
+p2 = d1 %>% 
+  ggplot(aes(x = z_score)) +
+  geom_histogram(aes(y = ..count.., fill = infra_over_represented), 
+                 bins = 60, alpha = 0.5, color = "black", position = "stack") +
+  theme_bw() +
+  coord_cartesian(expand = FALSE) +
+  geom_vline(xintercept = -abs(critical_value), linetype = "longdash", colour = "red") +
+  geom_vline(xintercept = abs(critical_value), linetype = "longdash", colour = "red") +
+  ylab("Number of networks") +
+  xlab("Z scores (NODF)")  +
+ # xlim(-6, 9) +
+ # ylim(0, 0.8) +
+  scale_fill_manual(name = "Observed against null",
+                    limits = c("Under-represented", "No statistical difference", "Over-represented"),
+                    labels = c("Less nested", "No difference", "More nested"),
+                    values = c("Under-represented" = "coral2", 
+                               "No statistical difference" = "palegreen3", 
+                               "Over-represented" = "cyan3")) +
+ggtitle("(b)")+
+xlim(-6,6)
+
 
 
 # 2nd Plot
@@ -106,7 +125,7 @@ scale_shape_manual(values = c(
   "Continental" = 24,  # Diamond
   "Mediterranean" = 25  # Cross
   )) +
-geom_line(data = nestedness_latitude,aes(x=Latitude, y = fit), inherit.aes = FALSE)+
+geom_line(data = nestedness_latitude,aes(x=Latitude, y = fit), inherit.aes = FALSE, linetype = "dashed")+
 geom_ribbon(data = nestedness_latitude, 
     aes(x=Latitude,ymin = lwr, ymax = upr), inherit.aes = FALSE,
     fill = "grey70", alpha= 0.3) +
@@ -128,6 +147,5 @@ a / b  & theme(axis.title =  element_text(size=16, face="bold"),
                fill=NA, size=1),
                axis.text=element_text(size=12))
 
-
-
 ```
+

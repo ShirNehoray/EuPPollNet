@@ -995,7 +995,9 @@ mutate(Land_cover = recode_factor(Land_cover,
               "Agro-forestry areas" = "Forest/woodland",
               "Forest" = "Forest/woodland",
               "Transitional woodland-shrub" = "Forest/woodland",
-              "Alpine grasslands" = "Montane to alpine grasslands"))
+              "Alpine grasslands" = "Montane to alpine grasslands",
+              "Land principally occupied by agriculture, with significant areas of natural vegetation" = "Agricultural land"))
+    
 
 
 #Semi-natural habitats above 1000m rename it to montane or alpine

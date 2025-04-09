@@ -140,7 +140,7 @@ color=NA, fill=NA, size=0.5, linetype="solid")) +
 scale_fill_manual(values = viridis(4),
                   name = NULL) +
 coord_flip(expand = FALSE) +
-facet_wrap(~ factor(Group, levels=c("Habitat","Bioregion")), space = "free_y", scales = "free") +
+facet_wrap(~ factor(Group, levels=c("Habitat","Bioregion")),  ncol=1, scales = "free") +
 guides(fill=guide_legend(nrow=2,byrow=TRUE)) 
 
 #Unify labels
@@ -169,7 +169,7 @@ xlab(NULL) +
 ylab("Number of studies")+
 theme(legend.position = "none")+
 coord_flip(expand = F) +
-facet_wrap(~ factor(Group, levels=c("Habitat","Bioregion")), space = "free_y", scales = "free")
+facet_wrap(~ factor(Group, levels=c("Habitat","Bioregion")),  ncol=1, scales = "free")
 
 
 #Plot panel
