@@ -29,6 +29,34 @@ data = data %>%
 mutate(Flower_data = "Yes") %>% 
 mutate(Flower_data_merger = paste0(word(Plant_species, 1), "_" , word(Plant_species,2), "_", Site_id, "_",
                                    Day, "_", Month, "_", Year))
+
+# Read coordinates
+coords = read_csv("Data/1_Raw_data/54_Lazaro/Coords.csv")
+setdiff(unique(data$Site_id), unique(coords$Site_id))
+
+#There are some duplicated site_id coordinates
+#Amparo sent me the new coords
+colnames(data)
+data %>%
+  select(Site_id, Latitude, Longitude) %>% 
+  distinct() %>% 
+  nrow()
+
+coords %>%
+  select(Site_id, Latitude, Longitude) %>% 
+  distinct() %>% 
+  nrow()
+
+# Filter out existing coords and new ones
+data = data %>% 
+  select(!c(Latitude, Longitude)) %>% 
+  left_join(coords)
+# Last safety check
+data %>%
+  select(Site_id, Latitude, Longitude) %>% 
+  distinct() %>% 
+  nrow()
+
 #Unify structure of data
 data = change_str(data)
 
